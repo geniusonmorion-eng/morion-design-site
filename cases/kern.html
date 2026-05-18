@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>KERN® — promo site — Кузнецова Анастасия</title>
+<link rel="icon" href="/favicon.ico?v=20260502" sizes="any" />
+<link rel="icon" href="/favicon.svg?v=20260502" type="image/svg+xml" />
+<link rel="icon" href="/favicon-32.png?v=20260502" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260502" />
+<meta name="theme-color" content="#000000" />
+<meta name="description" content="Кейс KERN: промосайт, концепция бренда, 3D-модель лыжи, визуальная система, анимации и международные дизайн-награды." />
+<link rel="canonical" href="https://morion.design/cases/kern.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="KERN® — promo site" />
+<meta property="og:description" content="Авторский промосайт с 3D-графикой, visual storytelling и наградами Awwwards, CSSDA и других платформ." />
+<meta property="og:image" content="https://morion.design/media/kern/kern-case/photo1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preload" as="video" href="../media/kern/kern-case/kern-home-preview.mp4?v=20260505-kern-video-fix" type="video/mp4" />
+<link rel="preload" as="image" href="../media/pd-vremnno.jpg?v=20260503-pd-desktop" />
+<link rel="stylesheet" href="../style.css?v=20260503-pd-kern" />
+<style>
+  html,
+  body {
+    min-height: 100%;
+    height: auto;
+    overflow: auto;
+    background: #060606;
+    color: #efefef;
+  }
+
+  body {
+    --kern-sidebar: clamp(280px, 23vw, 392px);
+    --kern-gap: 8px;
+    --kern-text: #efefef;
+    --kern-muted: #9a9a9a;
+    --kern-panel: #151515;
+    --kern-panel-soft: #1c1c1c;
+    --kern-line: #252525;
+  }
+
+  .kern-shell {
+    display: grid;
+    grid-template-columns: var(--kern-sidebar) minmax(0, 1fr);
+    gap: var(--kern-gap);
+    min-height: 100vh;
+    padding: var(--kern-gap);
+    background: #060606;
+  }
+
+  .kern-sidebar {
+    position: fixed;
+    top: var(--kern-gap);
+    left: var(--kern-gap);
+    z-index: 5;
+    width: var(--kern-sidebar);
+    height: calc(100svh - var(--kern-gap) * 2);
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #090909;
+    color: var(--kern-text);
+  }
+
+  .kern-sidebar-head {
+    display: grid;
+    grid-template-columns: 46px 1fr 46px;
+    align-items: start;
+    gap: 16px;
+    padding: 8px 10px 0;
+  }
+
+  .kern-title {
+    justify-self: center;
+    color: #fff;
+    font-size: clamp(28px, 2vw, 34px);
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .kern-icon-link {
+    width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: var(--kern-panel);
+    color: #efefef;
+    transition: background 180ms ease, opacity 180ms ease;
+  }
+
+  .kern-icon-link:hover {
+    background: var(--kern-panel-soft);
+    opacity: 0.72;
+  }
+
+  .kern-icon-link svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .related-cases {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 68px 10px 0;
+  }
+
+  .related-card {
+    min-height: 92px;
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr);
+    align-items: center;
+    gap: 18px;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--kern-panel);
+    color: var(--kern-text);
+    transition: background 180ms ease, transform 180ms ease, opacity 180ms ease;
+  }
+
+  .related-card:hover {
+    background: #202020;
+    transform: translateY(-1px);
+  }
+
+  .related-thumb {
+    position: relative;
+    width: 86px;
+    aspect-ratio: 1.34;
+    overflow: hidden;
+    border-radius: 7px;
+    background: #262626;
+  }
+
+  .related-thumb img,
+  .related-thumb video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .related-copy {
+    min-width: 0;
+  }
+
+  .related-copy strong {
+    display: block;
+    margin-bottom: 9px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.05;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .related-copy span {
+    display: block;
+    color: var(--kern-muted);
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .case-section-nav {
+    margin-top: auto;
+    padding: 28px 20px 22px;
+  }
+
+  .case-section-nav p {
+    margin-bottom: 14px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .case-section-nav a {
+    display: block;
+    width: fit-content;
+    color: var(--kern-muted);
+    font-size: 13px;
+    line-height: 1.45;
+    transition: color 180ms ease, opacity 180ms ease;
+  }
+
+  .case-section-nav a + a {
+    margin-top: 7px;
+  }
+
+  .case-section-nav a:hover,
+  .case-section-nav a.active {
+    color: #fff;
+  }
+
+  .kern-content {
+    grid-column: 2;
+    min-width: 0;
+    padding-bottom: 96px;
+  }
+
+  .kern-case-flow {
+    width: 100%;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+
+  .kern-media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #171717;
+  }
+
+  .kern-media img,
+  .kern-media video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .kern-media.is-contain img,
+  .kern-media.is-contain video {
+    object-fit: contain;
+    background: #202020;
+  }
+
+  .kern-media.hero {
+    aspect-ratio: 1280 / 760;
+  }
+
+  .kern-info-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(28px, 7vw, 116px);
+    margin: 28px 0 40px;
+  }
+
+  .kern-text-block h2,
+  .kern-section h2 {
+    margin: 0 0 18px;
+    color: #fff;
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.15;
+    font-weight: 500;
+  }
+
+  .kern-text-block p,
+  .kern-section p {
+    color: var(--kern-muted);
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.45;
+    font-weight: 400;
+    text-wrap: pretty;
+  }
+
+  .kern-text-block p + p,
+  .kern-section p + p {
+    margin-top: 12px;
+  }
+
+  .kern-section {
+    margin-top: 48px;
+  }
+
+  .kern-section.is-spacious {
+    margin-top: 68px;
+  }
+
+  .kern-section-copy {
+    max-width: 1180px;
+    margin-bottom: 24px;
+  }
+
+  .kern-media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .kern-media-grid + .kern-section-copy,
+  .kern-media + .kern-section-copy {
+    margin-top: 34px;
+  }
+
+  .kern-media-grid .kern-media {
+    aspect-ratio: 1.42;
+  }
+
+  .design-product-media {
+    aspect-ratio: 1977 / 1227;
+  }
+
+  .superkern-media {
+    aspect-ratio: 3225 / 2001;
+  }
+
+  .kern-media-wide {
+    aspect-ratio: 2280 / 1456;
+  }
+
+  .kern-media-wide.is-short {
+    aspect-ratio: 2262 / 572;
+  }
+
+  .kern-media-wide.is-video {
+    aspect-ratio: 1280 / 758;
+  }
+
+  .kern-caption {
+    margin-top: 10px;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .awards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 56px;
+    gap: 8px;
+    margin: 24px 0 28px;
+  }
+
+  .award-link {
+    min-height: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 4px;
+    background: var(--kern-panel);
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.15;
+    transition: background 180ms ease, opacity 180ms ease;
+  }
+
+  .award-link.is-tall {
+    grid-column: auto;
+    grid-row: span 2;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .award-logo {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .award-logo img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .award-logo.is-invert img {
+    filter: brightness(0) invert(1);
+  }
+
+  .award-logo-awwwards {
+    width: 92px;
+    height: 34px;
+  }
+
+  .award-logo-nectar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .award-logo-light {
+    width: 58px;
+  }
+
+  .award-logo-winner {
+    width: 36px;
+    height: 28px;
+  }
+
+  .award-logo-best {
+    width: 58px;
+  }
+
+  .award-logo-cssda,
+  .award-logo-design {
+    width: 30px;
+    height: 30px;
+  }
+
+  .award-name {
+    min-width: 0;
+  }
+
+  .award-link:hover {
+    background: #202020;
+    opacity: 0.82;
+  }
+
+  .site-link {
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  @media (max-width: 1040px) {
+    body {
+      --kern-sidebar: 260px;
+    }
+
+    .related-cases {
+      gap: 10px;
+      padding-top: 42px;
+    }
+
+    .related-card {
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 12px;
+      min-height: 78px;
+    }
+
+    .related-thumb {
+      width: 72px;
+    }
+
+    .related-copy strong {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .related-copy span {
+      font-size: 12px;
+    }
+
+    .awards-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 780px) {
+    .kern-shell {
+      display: block;
+      padding: 8px;
+    }
+
+    .kern-sidebar {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: auto;
+      height: auto;
+      min-height: 0;
+      margin-bottom: 8px;
+    }
+
+    .kern-sidebar-head {
+      grid-template-columns: 42px 1fr 42px;
+      gap: 10px;
+      padding: 8px;
+    }
+
+    .kern-icon-link {
+      width: 42px;
+      height: 42px;
+    }
+
+    .related-cases {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 12px 8px 8px;
+    }
+
+    .related-card {
+      grid-template-columns: 56px minmax(0, 1fr);
+      min-height: 76px;
+      padding: 8px;
+    }
+
+    .related-thumb {
+      width: 56px;
+    }
+
+    .case-section-nav {
+      display: none;
+    }
+
+    .kern-content {
+      padding-bottom: 64px;
+    }
+
+    .kern-info-grid,
+    .kern-media-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .kern-info-grid {
+      gap: 28px;
+      margin: 24px 0 34px;
+    }
+
+    .kern-section {
+      margin-top: 38px;
+    }
+
+    .kern-section.is-spacious {
+      margin-top: 50px;
+    }
+
+    .kern-media-grid .kern-media,
+    .kern-media.hero,
+    .kern-media-wide,
+    .kern-media-wide.is-short,
+    .kern-media-wide.is-video {
+      aspect-ratio: 1.42;
+    }
+
+    .award-link.is-tall {
+      flex-direction: row;
+      justify-content: flex-start;
+      text-align: left;
+      font-size: 15px;
+      grid-row: auto;
+      min-height: 56px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .related-cases {
+      grid-template-columns: 1fr;
+    }
+
+    .related-card {
+      grid-template-columns: 76px minmax(0, 1fr);
+    }
+
+    .related-thumb {
+      width: 76px;
+    }
+
+    .kern-text-block h2,
+    .kern-section h2 {
+      font-size: 20px;
+    }
+
+    .awards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .award-link.is-tall {
+      grid-column: auto;
+      grid-row: auto;
+      min-height: 56px;
+    }
+  }
+
+  .kern-media-grid .superkern-media,
+  .kern-media-wide.superkern-media {
+    aspect-ratio: 22 / 13;
+  }
+
+  .kern-media-grid .design-product-media {
+    aspect-ratio: 1977 / 1227;
+  }
+
+  #product .kern-media-grid .kern-media {
+    aspect-ratio: 1977 / 1227;
+  }
+
+  #site-preview .kern-media-wide {
+    aspect-ratio: 2560 / 1588;
+  }
+
+  .kern-media-grid .case-preview-media {
+    aspect-ratio: 4 / 3;
+  }
+
+  @media (min-width: 781px) {
+    .awards-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .award-link.is-tall {
+      grid-column: auto;
+      grid-row: span 2;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="kern-shell">
+    <aside class="kern-sidebar" aria-label="Навигация по кейсу">
+      <header class="kern-sidebar-head">
+        <a class="kern-icon-link" href="../index.html" data-transition aria-label="Назад на главную">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        </a>
+        <h1 class="kern-title">KERN</h1>
+        <a class="kern-icon-link" href="dolyami.html" data-transition aria-label="Следующий кейс">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3 L11 8 L6 13" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        </a>
+      </header>
+
+      <nav class="related-cases" aria-label="Другие кейсы">
+        <a class="related-card" href="dolyami.html" data-transition>
+          <span class="related-thumb"><img src="../media/case5-new.png" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>Долями</strong>
+            <span>разработка мобильного приложения</span>
+          </span>
+        </a>
+        <a class="related-card" href="../index.html" data-transition>
+          <span class="related-thumb"><img src="../media/pd-vremnno.jpg?v=20260503-pd-desktop" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>Poison Drop</strong>
+            <span>разработка дизайн-системы</span>
+          </span>
+        </a>
+        <a class="related-card" href="uvc.html" data-transition>
+          <span class="related-thumb"><img src="../media/uvc-test-screen.jpg?v=20260502-fast" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>Ювелирцентр</strong>
+            <span>разработка мобильного приложения</span>
+          </span>
+        </a>
+        <a class="related-card" href="../index.html" data-transition>
+          <span class="related-thumb"><img src="../media/yandex-case/1.png" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>UI эксперименты</strong>
+            <span>набор UI сайтов на вайбкоде и не только</span>
+          </span>
+        </a>
+      </nav>
+
+      <nav class="case-section-nav" aria-label="Разделы кейса">
+        <p>Внутри кейса</p>
+        <a href="#about">о проекте</a>
+        <a href="#brand">характер бренда</a>
+        <a href="#references">референсы</a>
+        <a href="#product">дизайн продукта</a>
+        <a href="#site-preview">сам сайт</a>
+        <a href="#awards">награды</a>
+      </nav>
+    </aside>
+
+    <main class="kern-content">
+      <div class="kern-case-flow">
+        <figure class="kern-media hero">
+          <video preload="auto" src="../media/kern/kern-case/kern-home-preview.mp4?v=20260505-kern-video-fix" autoplay data-autoplay="true" muted loop playsinline></video>
+        </figure>
+
+        <section class="kern-info-grid" id="about">
+          <div class="kern-text-block">
+            <h2>о проекте</h2>
+            <p>KERN — концептуальный бренд гоночных лыж, созданный с нуля для участия в международных дизайн-конкурсах. Задача — передать через интерфейс то, что бренд закладывает в продукт: точность, контроль и ощущение трассы с первого поворота.</p>
+          </div>
+          <div class="kern-text-block">
+            <h2>моя роль</h2>
+            <p>Единственный автор проекта. Полный цикл от идеи до публикации.</p>
+            <p>концепция бренда, философия и позиционирование, конкурентный анализ лыжной индустрии и digital-референсов, копирайтинг, Midjourney-контент и 3D-визуализация продукта, дизайн сайта, адаптивы, UI Kit и передача в сборку на TapTop</p>
+          </div>
+        </section>
+
+        <div class="kern-media-grid" aria-label="Первые экраны KERN">
+          <figure class="kern-media case-preview-media is-contain">
+            <img src="../media/kern/kern-case/preview-1-superkern.jpg?v=20260503-preview" alt="KERN preview 1" loading="eager" decoding="async">
+          </figure>
+          <figure class="kern-media case-preview-media is-contain">
+            <img src="../media/kern/kern-case/preview-2-superkern.jpg?v=20260503-preview" alt="KERN preview 2" loading="eager" decoding="async">
+          </figure>
+        </div>
+
+        <section class="kern-section is-spacious" id="brand">
+          <div class="kern-section-copy">
+            <h2>Характер бренда и мудборд</h2>
+            <p>Я выделила четыре ключевые ассоциации бренда и перевела каждую в конкретный визуальный приём. Вместе они формируют ядро дизайн-системы KERN: скорость, минимализм, точность и инженерия.</p>
+            <p>Из широкого поля я отфильтровала якорные образы — те, которые точнее всего передают характер KERN: контраст, движение, инженерная эстетика.</p>
+          </div>
+          <div class="kern-media-grid brand-moodboards">
+            <figure class="kern-media superkern-media is-contain">
+              <img loading="lazy" src="../media/kern/kern-case/moodboard-superkern.jpg?v=20260503-superkern-clean" alt="Moodboard KERN">
+            </figure>
+            <figure class="kern-media superkern-media is-contain">
+              <img loading="lazy" src="../media/kern/kern-case/priority-moodboard-superkern.jpg?v=20260503-superkern-clean" alt="Priority moodboard KERN">
+            </figure>
+          </div>
+        </section>
+
+        <section class="kern-section is-spacious" id="references">
+          <div class="kern-section-copy">
+            <h2>Референсы по композиции</h2>
+            <p>Каждый экран сайта я декомпозировала отдельно: подобрала композиционные референсы под&nbsp;конкретную задачу секции — от&nbsp;прелоадера до&nbsp;футера.</p>
+          </div>
+          <figure class="kern-media kern-media-wide superkern-media is-contain">
+            <img loading="lazy" src="../media/kern/kern-case/reference-composition-superkern.jpg?v=20260503-superkern-clean" alt="Композиционные референсы для экранов KERN">
+          </figure>
+        </section>
+
+        <section class="kern-section is-spacious">
+          <div class="kern-section-copy">
+            <h2>Слои ULTRA-UI</h2>
+            <p>ULTRA-UI — моя авторская методология: я раскладываю дизайн на слои — типографика, сетка, цвет, анимация, графика — и для каждого определяю, какой визуальный приём передаёт нужную эмоцию.</p>
+          </div>
+          <figure class="kern-media kern-media-wide superkern-media is-contain">
+            <img loading="lazy" src="../media/kern/kern-case/ultra-ui-superkern.jpg?v=20260503-superkern-clean" alt="Слои ULTRA-UI для KERN">
+          </figure>
+        </section>
+
+        <section class="kern-section is-spacious" id="product">
+          <div class="kern-section-copy">
+            <h2>Дизайн продукта</h2>
+            <p>Прежде чем моделировать лыжу, я собрала визуальные референсы по конструкции: крепления, изгибы, материалы, детализация стыков. Фокус — на продуктах, где инженерная форма сама становится визуальным языком.</p>
+            <p>На основе референсов я собрала 3D-модель лыжи в Blender — с точной геометрией креплений, профилем изгиба и конструктивными деталями. Затем настроила текстуры, свет и анимацию взрыв-схемы.</p>
+          </div>
+          <div class="kern-media-grid">
+            <figure class="kern-media design-product-media is-contain">
+              <img loading="lazy" src="../media/kern/kern-case/design-to-product2-superkern.jpg?v=20260503-design-product2" alt="Design to product">
+            </figure>
+            <figure class="kern-media is-video">
+              <video preload="metadata" src="../media/kern/kern-case/design3-lite.mp4?v=20260503-kern" data-autoplay="true" muted loop playsinline></video>
+            </figure>
+          </div>
+        </section>
+
+        <section class="kern-section is-spacious" id="site-preview">
+          <div class="kern-section-copy">
+            <h2>Давайте посмотрим теперь на сам сайт!</h2>
+            <p>Камера стартует с крупного плана лица лыжника в очках, приближается к глазу, проникает через зрачок — и зритель оказывается внутри инженерной системы KERN.</p>
+          </div>
+          <figure class="kern-media kern-media-wide is-video">
+            <video preload="metadata" src="../media/kern/kern-case/final-video-hq.mp4?v=20260503-final-video-hq" data-autoplay="true" muted loop playsinline></video>
+          </figure>
+        </section>
+
+        <section class="kern-section is-spacious" id="awards">
+          <div class="kern-section-copy">
+            <h2>награды</h2>
+            <p>Сайт KERN получил признание семи международных платформ, оценивающих качество веб-дизайна, визуального сторителлинга и фронтенд-реализации.</p>
+          </div>
+          <div class="awards-grid">
+            <a class="award-link is-tall" href="https://www.awwwards.com/sites/kern" target="_blank" rel="noopener noreferrer"><span class="award-logo award-logo-awwwards is-invert" aria-hidden="true"><img src="../media/kern/kern-case/award-logos/awwwards.png?v=20260503-award-logos" alt="" loading="lazy" decoding="async"></span><span class="award-name">Awwwards HM</span></a>
+            <a class="award-link" href="https://www.cssnectar.com/" target="_blank" rel="noopener noreferrer"><span class="award-logo award-logo-nectar" aria-hidden="true"><img src="../media/kern/kern-case/award-logos/cssnectar.png?v=20260503-award-logos" alt="" loading="lazy" decoding="async"></span><span class="award-name">CSS Nectar</span></a>
+            <a class="award-link" href="https://www.csslight.com/" target="_blank" rel="noopener noreferrer"><span class="award-logo award-logo-light" aria-hidden="true"><img src="../media/kern/kern-case/award-logos/csslight.png?v=20260503-award-logos" alt="" loading="lazy" decoding="async"></span><span class="award-name">CSS Light</span></a>
+            <a class="award-link" href="https://www.designnominees.com/" target="_blank" rel="noopener noreferrer"><span class="award-logo award-logo-design" aria-hidden="true"><img src="../media/kern/kern-case/award-logos/designnominees.png?v=20260503-award-logos" alt="" loading="lazy" decoding="async"></span><span class="award-name">Design Nominees</span></a>
+            <a class="award-link" href="https://www.csswinner.com/" target="_blank" rel="noopener noreferrer"><span class="award-logo award-logo-winner is-invert" aria-hidden="true"><img src="../media/kern/kern-case/award-logos/csswinner.png?v=20260503-award-logos" alt="" loading="lazy" decoding="async"></span><span class="award-name">CSS Winner</span></a>
+            <a class="award-link" href="https://www.bestcss.in/" target="_blank" rel="noopener noreferrer"><span class="award-logo award-logo-best" aria-hidden="true"><img src="../media/kern/kern-case/award-logos/bestcss.png?v=20260503-award-logos" alt="" loading="lazy" decoding="async"></span><span class="award-name">BestCSS</span></a>
+            <a class="award-link" href="https://www.cssdesignawards.com/" target="_blank" rel="noopener noreferrer"><span class="award-logo award-logo-cssda is-invert" aria-hidden="true"><img src="../media/kern/kern-case/award-logos/cssda.png?v=20260503-award-logos" alt="" loading="lazy" decoding="async"></span><span class="award-name">CSS Design Awards</span></a>
+          </div>
+          <figure class="kern-media kern-media-wide">
+            <img loading="lazy" src="../media/kern/kern-case/last.png" alt="Финальный экран сайта KERN">
+          </figure>
+          <p class="kern-caption">Посмотреть сайт: <a class="site-link" href="https://kern.taptop.site" target="_blank" rel="noopener noreferrer">kern.taptop.site</a></p>
+        </section>
+      </div>
+    </main>
+  </div>
+
+<script>
+const shell = document.querySelector('.kern-shell');
+const caseVideos = Array.from(document.querySelectorAll('.kern-media video'));
+
+function playCaseVideo(video) {
+  if (video.dataset.loadRequested !== 'true' && video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
+    video.dataset.loadRequested = 'true';
+    if (video.preload === 'none') video.preload = 'metadata';
+    video.load();
+  }
+  video.play().catch(() => {});
+}
+
+function pauseCaseVideo(video) {
+  if (!video.paused) video.pause();
+}
+
+if ('IntersectionObserver' in window) {
+  const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target;
+      const shouldAutoplay = video.autoplay || video.dataset.autoplay === 'true';
+      if (entry.isIntersecting && shouldAutoplay && !document.hidden) playCaseVideo(video);
+      else pauseCaseVideo(video);
+    });
+  }, { rootMargin: '220px 0px', threshold: 0.05 });
+  caseVideos.forEach((video) => videoObserver.observe(video));
+} else {
+  caseVideos.forEach((video) => playCaseVideo(video));
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    caseVideos.forEach((video) => pauseCaseVideo(video));
+  } else {
+    caseVideos.forEach((video) => {
+      const rect = video.getBoundingClientRect();
+      const shouldAutoplay = video.autoplay || video.dataset.autoplay === 'true';
+      if (shouldAutoplay && rect.bottom > -220 && rect.top < window.innerHeight + 220) playCaseVideo(video);
+    });
+  }
+});
+
+const sectionLinks = Array.from(document.querySelectorAll('.case-section-nav a'));
+const sections = sectionLinks
+  .map((link) => document.querySelector(link.getAttribute('href')))
+  .filter(Boolean);
+
+function updateActiveSection() {
+  if (!sectionLinks.length) return;
+  let activeId = sections[0]?.id || '';
+  const offset = window.innerHeight * 0.35;
+  sections.forEach((section) => {
+    if (section.getBoundingClientRect().top <= offset) activeId = section.id;
+  });
+  sectionLinks.forEach((link) => {
+    link.classList.toggle('active', link.getAttribute('href') === `#${activeId}`);
+  });
+}
+
+updateActiveSection();
+window.addEventListener('scroll', updateActiveSection, { passive: true });
+
+document.querySelectorAll('[data-transition]').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    shell.style.transition = 'opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1), transform 0.75s cubic-bezier(0.4, 0, 0.2, 1)';
+    shell.style.opacity = '0';
+    shell.style.transform = 'scale(0.985)';
+    setTimeout(() => { window.location.href = href; }, 620);
+  });
+});
+</script>
+</body>
+</html>
