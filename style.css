@@ -252,8 +252,7 @@ img, video { max-width: 100%; }
 }
 .title-and-client .title { white-space: nowrap; }
 .top-bar .category { grid-column: 7 / span 3; }
-.top-bar .pagination { grid-column: 10 / span 2; padding-left: 30px; white-space: nowrap; }
-.top-bar .year { grid-column: 12 / span 1; text-align: right; white-space: nowrap; margin-right: -12px; }
+.top-bar .year { grid-column: 10 / span 3; text-align: right; white-space: nowrap; margin-right: -12px; }
 
 .accordion-container {
   position: relative;
@@ -747,8 +746,7 @@ body.cursor-hidden * { cursor: none; }
     padding: 8px 0 0;
   }
 
-  .top-bar .arrows,
-  .top-bar .pagination { display: none; }
+  .top-bar .arrows { display: none; }
   .top-bar .title-and-client { grid-column: 1 / span 5; }
   .top-bar .category { grid-column: 6 / span 4; }
   .top-bar .year { grid-column: 11 / span 2; margin-right: 0; }
@@ -978,7 +976,4 @@ body.cursor-hidden * { cursor: none; }
     line-height: 110%;
   }
 
-  .top-bar .pagination {
-    padding-left: 18px;
-  }
 }

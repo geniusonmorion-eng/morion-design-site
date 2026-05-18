@@ -475,8 +475,6 @@ function setupGalleries() {
 		const slides = Array.from(caseEl.querySelectorAll('.slide'));
 		const prevBtn = caseEl.querySelector('.arrow.prev');
 		const nextBtn = caseEl.querySelector('.arrow.next');
-		const curEl = caseEl.querySelector('.pagination .cur');
-		const totalEl = caseEl.querySelector('.pagination .tot');
 		const gallery = caseEl.querySelector('.gallery');
 		const href = caseEl.getAttribute('data-href');
 		const total = slides.length;
@@ -491,8 +489,6 @@ function setupGalleries() {
 			isVisible = rect.width > 0 && rect.height > 0 && rect.bottom > -240 && rect.top < window.innerHeight + 240;
 		};
 
-		if (totalEl) totalEl.textContent = String(total).padStart(2, '0');
-
 		const syncVideos = () => {
 			updateVisibility();
 			slides.forEach((slide, i) => {
@@ -506,7 +502,6 @@ function setupGalleries() {
 
 		const render = () => {
 			if (track) track.style.transform = `translateX(${-index * 100}%)`;
-			if (curEl) curEl.textContent = String(index + 1).padStart(2, '0');
 			syncVideos();
 		};
 
