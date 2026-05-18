@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://moriondesign.uk/sitemap.xml
+Sitemap: https://geniusonmorion-eng.github.io/morion-design-site/sitemap.xml
