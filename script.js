@@ -152,6 +152,19 @@ function updateBounds(track, sc) {
 	tweenYToTarget(sc);
 }
 
+function setScrollPosition(sc, y) {
+	if (hasGsap) window.gsap.killTweensOf(sc);
+	sc.y = clamp(y, 0, sc.bounds.max);
+	sc.yRatio = sc.bounds.max > 0 ? clamp(sc.y / sc.bounds.max) : 0;
+	sc.delta = 0;
+}
+
+function scrollSplitColumnToElement(element, track, sc) {
+	if (!element || !track) return;
+	updateBounds(track, sc);
+	setScrollPosition(sc, element.offsetTop - PADDING);
+}
+
 function setupScrollAdapter(track, sc) {
 	if (!track) return;
 	updateBounds(track, sc);
@@ -334,6 +347,65 @@ function syncSplitMode() {
 	}
 }
 
+function showContacts(options = {}) {
+	const { updateHash = true } = options;
+	const contacts = document.getElementById('contacts');
+	if (!contacts) return;
+
+	if (isSplit()) {
+		changeSide('left');
+		state.initialWheel = false;
+		scrollSplitColumnToElement(contacts, rightTrack, rightScroll);
+		renderSplitLayout();
+		if (updateHash && window.location.hash !== '#contacts') {
+			history.pushState(null, '', '#contacts');
+		}
+		return;
+	}
+
+	setMobileSide('right', { restore: false });
+	requestAnimationFrame(() => {
+		contacts.scrollIntoView({ block: 'start' });
+		if (updateHash && window.location.hash !== '#contacts') {
+			history.pushState(null, '', '#contacts');
+		}
+	});
+}
+
+function renderSplitLayout() {
+	if (!isSplit() || !leftCol || !rightCol || !leftTrack || !rightTrack) return;
+
+	const vw = window.innerWidth;
+	const vh = window.innerHeight;
+	const baseWidth = vw * 0.5;
+	const ma = moveAmount();
+	const t = ma + state.ratio * (1 - ma * 2);
+	const leftRatio = t;
+	const rightRatio = 1 - t;
+
+	const leftWidth = vw * leftRatio - PADDING * 1.5;
+	const rightWidth = vw * rightRatio - PADDING * 1.5;
+	const leftX = PADDING;
+	const rightX = leftX + leftWidth + PADDING;
+	const leftScale = leftWidth / baseWidth;
+	const rightScale = rightWidth / baseWidth;
+
+	const halfH = vh * 0.5;
+	const originLeft = leftScroll.y + vh / 2;
+	const originRight = rightScroll.y + vh / 2;
+	const offL = (halfH - halfH * leftScale) * (leftScroll.yRatio * 2 - 1);
+	const offR = (halfH - halfH * rightScale) * (rightScroll.yRatio * 2 - 1);
+	const tyL = -leftScroll.y + offL;
+	const tyR = -rightScroll.y + offR;
+
+	leftCol.style.transformOrigin = `0px ${originLeft}px`;
+	rightCol.style.transformOrigin = `0px ${originRight}px`;
+	leftCol.style.transform = `translate3d(${leftX}px, ${tyL}px, 0) scale(${leftScale})`;
+	rightCol.style.transform = `translate3d(${rightX}px, ${tyR}px, 0) scale(${rightScale})`;
+	leftTrack.style.gap = `${PADDING / leftScale}px`;
+	rightTrack.style.gap = `${PADDING / rightScale}px`;
+}
+
 function tick() {
 	if (isSplit() && leftCol && rightCol && leftTrack && rightTrack) {
 		if (state.splitListenersBound) {
@@ -353,35 +425,7 @@ function tick() {
 		tweenYToTarget(leftScroll);
 		tweenYToTarget(rightScroll);
 
-		const vw = window.innerWidth;
-		const vh = window.innerHeight;
-		const baseWidth = vw * 0.5;
-		const ma = moveAmount();
-		const t = ma + state.ratio * (1 - ma * 2);
-		const leftRatio = t;
-		const rightRatio = 1 - t;
-
-		const leftWidth = vw * leftRatio - PADDING * 1.5;
-		const rightWidth = vw * rightRatio - PADDING * 1.5;
-		const leftX = PADDING;
-		const rightX = leftX + leftWidth + PADDING;
-		const leftScale = leftWidth / baseWidth;
-		const rightScale = rightWidth / baseWidth;
-
-		const halfH = vh * 0.5;
-		const originLeft = leftScroll.y + vh / 2;
-		const originRight = rightScroll.y + vh / 2;
-		const offL = (halfH - halfH * leftScale) * (leftScroll.yRatio * 2 - 1);
-		const offR = (halfH - halfH * rightScale) * (rightScroll.yRatio * 2 - 1);
-		const tyL = -leftScroll.y + offL;
-		const tyR = -rightScroll.y + offR;
-
-		leftCol.style.transformOrigin = `0px ${originLeft}px`;
-		rightCol.style.transformOrigin = `0px ${originRight}px`;
-		leftCol.style.transform = `translate3d(${leftX}px, ${tyL}px, 0) scale(${leftScale})`;
-		rightCol.style.transform = `translate3d(${rightX}px, ${tyR}px, 0) scale(${rightScale})`;
-		leftTrack.style.gap = `${PADDING / leftScale}px`;
-		rightTrack.style.gap = `${PADDING / rightScale}px`;
+		renderSplitLayout();
 
 		const now = performance.now();
 		if (now - lastGalleryVideoSync > VIDEO_SYNC_INTERVAL) {
@@ -689,6 +733,19 @@ function setupMobileTabs() {
 	});
 }
 
+function setupContactLink() {
+	document.querySelectorAll('a[href="#contacts"]').forEach((link) => {
+		link.addEventListener('click', (event) => {
+			event.preventDefault();
+			showContacts();
+		});
+	});
+
+	window.addEventListener('hashchange', () => {
+		if (window.location.hash === '#contacts') showContacts({ updateHash: false });
+	});
+}
+
 function setupClock() {
 	const clockEl = document.getElementById('msk-clock');
 	if (!clockEl) return;
@@ -720,6 +777,7 @@ function init() {
 		setupScrollAdapter(rightTrack, rightScroll);
 		setupMobileTabs();
 		syncSplitMode();
+		setupContactLink();
 		setupGalleries();
 		setupAccordions();
 		setupKeyboardNavigation();
@@ -738,6 +796,9 @@ function init() {
 			}
 		});
 		window.addEventListener('resize', syncSplitMode);
+		if (window.location.hash === '#contacts') {
+			requestAnimationFrame(() => showContacts({ updateHash: false }));
+		}
 		requestAnimationFrame(tick);
 	} catch (error) {
 		console.error(error);
