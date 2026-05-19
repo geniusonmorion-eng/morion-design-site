@@ -659,7 +659,8 @@ function setupKeyboardNavigation() {
 		if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
 		if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(document.activeElement?.tagName)) return;
 
-		const cases = Array.from(document.querySelectorAll('.case'));
+		const cases = Array.from(document.querySelectorAll('.case')).filter((caseEl) => !caseEl.hidden);
+		if (!cases.length) return;
 		const vh = window.innerHeight;
 		let best = null;
 		let bestDist = Infinity;
@@ -677,6 +678,56 @@ function setupKeyboardNavigation() {
 			? best?.querySelector('.arrow.prev')
 			: best?.querySelector('.arrow.next');
 		btn?.click();
+	});
+}
+
+function setupCaseFilters() {
+	const buttons = Array.from(document.querySelectorAll('.case-filter'));
+	const cases = Array.from(document.querySelectorAll('.col-left .case'));
+	if (!buttons.length || !cases.length) return;
+
+	let activeFilter = null;
+
+	function resetLeftScroll() {
+		if (isSplit()) {
+			leftScroll.y = 0;
+			leftScroll.yRatio = 0;
+			leftScroll.delta = 0;
+			updateBounds(leftTrack, leftScroll);
+			return;
+		}
+
+		if (mobileSide === 'left' || !mobileSide) {
+			window.scrollTo({ top: 0, left: 0 });
+		}
+	}
+
+	function applyFilter(nextFilter) {
+		activeFilter = nextFilter;
+		buttons.forEach((button) => {
+			const isActive = button.dataset.filter === activeFilter;
+			button.classList.toggle('is-active', isActive);
+			button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+		});
+
+		cases.forEach((caseEl) => {
+			const filters = (caseEl.dataset.filters || '').split(/\s+/);
+			const isVisible = !activeFilter || filters.includes(activeFilter);
+			caseEl.hidden = !isVisible;
+		});
+
+		resetLeftScroll();
+		requestAnimationFrame(() => {
+			updateBounds(leftTrack, leftScroll);
+			galleryVideoSyncers.forEach((syncVideos) => syncVideos());
+		});
+	}
+
+	buttons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const filter = button.dataset.filter || null;
+			applyFilter(activeFilter === filter ? null : filter);
+		});
 	});
 }
 
@@ -722,6 +773,7 @@ function init() {
 		syncSplitMode();
 		setupGalleries();
 		setupAccordions();
+		setupCaseFilters();
 		setupKeyboardNavigation();
 		setupCursor();
 		setupIntroVideo();
