@@ -16,427 +16,695 @@
 <meta property="og:description" content="How to make the BNPL scenario clearer and safer for users to understand." />
 <meta property="og:image" content="https://geniusonmorion-eng.github.io/morion-design-site/media/case5-new.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="stylesheet" href="../style.css" />
+<link rel="preload" as="image" href="../media/case5-new.png" />
+<link rel="stylesheet" href="../style.css?v=20260520-dolyami-case-flow" />
 <style>
-  html, body { overflow: auto; height: auto; background: #fff; }
-
-  @keyframes fadeSlideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  html,
+  body {
+    min-height: 100%;
+    height: auto;
+    overflow: auto;
+    background: #000;
+    color: #efefef;
   }
 
-  .case-page { max-width: 1200px; margin: 0 auto; padding: 40px 25px 80px; animation: fadeSlideIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) both; }
-  .case-back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 400; color: #171717; margin-bottom: 40px; transition: opacity 180ms; }
-  .case-back:hover { opacity: 0.5; }
-  .case-back svg { width: 16px; height: 16px; }
-  .case-header { margin-bottom: 40px; }
-  .case-header h1 { font-size: 48px; font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; color: #171717; margin-bottom: 8px; }
-  .case-header .case-subtitle { font-size: 18px; color: #777; font-weight: 400; }
-  .case-header .case-meta-row { display: flex; gap: 24px; margin-top: 16px; font-size: 14px; color: #171717; }
-  .case-gallery-full img,
-  .case-gallery-full video { width: 100%; border-radius: 8px; display: block; }
-  .case-gallery-full video { aspect-ratio: 16 / 9; object-fit: cover; }
-  .case-gallery-full { margin: 0; }
-  .case-body { max-width: 100%; margin-top: 24px; }
-  .case-body + .case-body { margin-top: 0; }
-  .case-body + .case-gallery-full { margin-top: 40px; }
-  .case-gallery-full + .case-body { margin-top: 48px; }
-  .case-two-col {
+  body {
+    --dl-sidebar: clamp(280px, 18vw, 340px);
+    --dl-gap: 8px;
+    --dl-text: #efefef;
+    --dl-muted: #9a9a9a;
+    --dl-panel: #151515;
+    --dl-panel-soft: #202020;
+    --dl-media-bg: #f2f2f2;
+  }
+
+  .dl-shell {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 24px 0;
-  }
-  .case-two-col img { width: 100%; border-radius: 8px; display: block; }
-  .case-body p { font-size: 18px; line-height: 1.6; color: #171717; margin-bottom: 16px; font-weight: 400; }
-  .case-body p strong { font-weight: 500; }
-  .case-body h2 { font-size: clamp(24px, 5vw, 36px); font-weight: 500; line-height: 1.25; margin: 0 0 40px; color: #171717; }
-
-  .highlight-block {
-    background: #F3F3F3;
-    border-radius: 8px;
-    padding: 14px 18px;
-    margin: 8px 0 24px;
-    display: flex;
-    align-items: center;
-  }
-  .highlight-block p {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.3;
-    color: #171717;
-    margin-bottom: 0;
+    grid-template-columns: var(--dl-sidebar) minmax(0, 1fr);
+    gap: var(--dl-gap);
+    min-height: 100vh;
+    padding: var(--dl-gap);
+    background: #000;
   }
 
-  .collapsible { padding: 16px 0; }
-  .collapsible:first-of-type { border-top: 1px solid #eee; padding-top: 24px; }
-  .collapsible-toggle {
+  .dl-sidebar {
+    position: fixed;
+    top: var(--dl-gap);
+    left: var(--dl-gap);
+    z-index: 5;
+    width: var(--dl-sidebar);
+    height: calc(100svh - var(--dl-gap) * 2);
+    min-height: 560px;
     display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding: clamp(12px, 1vw, 18px);
+    border-radius: 6px;
+    background: #000;
+    color: var(--dl-text);
+  }
+
+  .dl-sidebar-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 12px;
-    width: 100%;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 36px;
-    font-weight: 500;
-    line-height: 1.3;
-    color: #171717;
-    padding: 0;
-    text-align: left;
   }
-  .collapsible-icon {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    
-    background: #e9e9e9;
-    backdrop-filter: blur(23px);
-    border-radius: 4px;
-    display: flex;
+
+  .dl-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .dl-icon-link {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    border-radius: 0;
+    background: transparent;
+    color: var(--dl-text);
+    appearance: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity 180ms ease;
   }
-  .collapsible-icon .line {
-    position: absolute;
-    width: 14px;
-    height: 1px;
-    background: #1a1a1a;
-    transition: transform 0.4s ease;
-  }
-  .collapsible-icon .line:first-child { transform: rotate(0deg); }
-  .collapsible-icon .line:last-child { transform: rotate(90deg); }
-  .collapsible.open .collapsible-icon .line:last-child { transform: rotate(0deg); }
-  .collapsible-content { overflow: hidden; height: 0; transition: height 0.5s ease; }
-  .collapsible-content-inner { padding-top: 24px; }
-  .collapsible-content-inner p { font-size: 18px; line-height: 1.6; color: #171717; margin-bottom: 16px; font-weight: 400; }
-  .collapsible-content-inner .highlight-block p { font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 0; color: #171717; }
 
-  .label-badge {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 22px; height: 22px; background: #efefef; color: #000;
-    border-radius: 2px; font-size: 11px; font-weight: 500;
-    margin-right: 4px; vertical-align: middle;
+  .dl-icon-link:hover {
+    opacity: 0.72;
   }
-  .label-num {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 22px; height: 22px; background: #777; color: #000;
-    border-radius: 50%; font-size: 11px; font-weight: 500;
-    margin-right: 8px; vertical-align: middle;
+
+  .dl-icon-link svg {
+    width: 22px;
+    height: 22px;
   }
-  .plan-item { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-  .plan-item .plan-badges { display: flex; gap: 4px; margin-top: 3px; flex-shrink: 0; }
-  .plan-item p { margin-bottom: 0; }
-  @media (max-width: 699px) {
-    .case-page { padding: 24px 16px 60px; }
-    .case-body h2 { margin: 0 0 24px; }
-    .case-two-col, [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-    .collapsible-toggle { font-size: 20px; }
-    .case-body p, .collapsible-content-inner p { font-size: 15px; line-height: 1.55; }
-    .case-body h2 { font-size: 22px; }
-    .highlight-block p { font-size: 16px !important; }
-    .case-header .case-title { font-size: 28px; }
-    .case-header .case-subtitle { font-size: 15px; }
-    .collapsible-icon { width: 28px; height: 28px; min-width: 28px; }
+
+  .related-cases {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: clamp(34px, 5vh, 56px) 0 0;
+  }
+
+  .sidebar-section-title {
+    margin: 0 0 6px;
+    color: var(--dl-text);
+    font-size: clamp(16px, 1.2vw, 18px);
+    line-height: 1.15;
+    font-weight: 500;
+  }
+
+  .related-card {
+    position: relative;
+    min-height: 78px;
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+    padding: 8px 34px 8px 8px;
+    border-radius: 5px;
+    background: var(--dl-panel);
+    color: var(--dl-text);
+    transition: background 180ms ease, transform 180ms ease;
+  }
+
+  .related-card::after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 8px;
+    height: 8px;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+  }
+
+  .related-card:hover {
+    background: var(--dl-panel-soft);
+    transform: translateY(-1px);
+  }
+
+  .related-thumb {
+    position: relative;
+    width: 82px;
+    aspect-ratio: 1.34;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #262626;
+  }
+
+  .related-thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .related-copy {
+    min-width: 0;
+  }
+
+  .related-copy strong {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--dl-text);
+    font-size: 16px;
+    line-height: 1.05;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .related-copy span {
+    display: block;
+    color: var(--dl-muted);
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .dl-content {
+    grid-column: 2;
+    min-width: 0;
+    padding-bottom: 96px;
+    background: #000;
+    color: var(--dl-text);
+  }
+
+  .dl-case-flow {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0;
+  }
+
+  .dl-media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--dl-media-bg);
+  }
+
+  .dl-media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .dl-media.is-contain img {
+    object-fit: contain;
+  }
+
+  .dl-media.hero {
+    aspect-ratio: 1904 / 1292;
+  }
+
+  .dl-card-grid,
+  .dl-media-grid {
+    display: grid;
+    gap: 5px;
+    margin: 0;
+  }
+
+  .dl-brief-grid,
+  .dl-two-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dl-three-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dl-brief-card,
+  .dl-overview-item,
+  .dl-finding-card {
+    min-height: clamp(150px, 12vw, 220px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(18px, 1.7vw, 28px);
+    border-radius: 4px;
+    background: var(--dl-panel);
+  }
+
+  .dl-brief-card h2,
+  .dl-overview-item h2,
+  .dl-finding-card h2 {
+    margin: 0;
+    color: var(--dl-muted);
+    font-size: clamp(13px, 1.1vw, 18px);
+    line-height: 1.05;
+    font-weight: 500;
+    text-transform: lowercase;
+  }
+
+  .dl-brief-card p,
+  .dl-overview-item p,
+  .dl-finding-card p {
+    margin: clamp(20px, 3vw, 54px) 0 0;
+    color: var(--dl-text);
+    font-size: clamp(16px, 1.2vw, 22px);
+    line-height: 1.18;
+    font-weight: 400;
+    text-wrap: pretty;
+  }
+
+  .dl-overview {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 2fr);
+    gap: 5px;
+  }
+
+  .dl-overview-title {
+    min-height: clamp(180px, 20vw, 360px);
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(18px, 2vw, 34px);
+    border-radius: 4px;
+    background: var(--dl-panel);
+    color: var(--dl-text);
+    font-size: clamp(42px, 4.7vw, 104px);
+    line-height: 0.92;
+    font-weight: 500;
+  }
+
+  .dl-overview-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .dl-wide-media {
+    aspect-ratio: 1904 / 1292;
+  }
+
+  .dl-screen-media {
+    aspect-ratio: 1904 / 1292;
+  }
+
+  .dl-note {
+    min-height: clamp(126px, 10vw, 190px);
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(18px, 1.7vw, 28px);
+    border-radius: 4px;
+    background: var(--dl-panel);
+  }
+
+  .dl-note p {
+    margin: 0;
+    color: var(--dl-text);
+    font-size: clamp(18px, 1.5vw, 28px);
+    line-height: 1.12;
+    font-weight: 400;
+    text-wrap: pretty;
+  }
+
+  .dl-findings-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 1040px) {
+    body {
+      --dl-sidebar: 260px;
+    }
+
+    .related-cases {
+      padding-top: 30px;
+    }
+
+    .related-card {
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 12px;
+      min-height: 78px;
+    }
+
+    .related-thumb {
+      width: 72px;
+    }
+  }
+
+  @media (max-width: 780px) {
+    .dl-shell {
+      display: block;
+      padding: 8px;
+    }
+
+    .dl-sidebar {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: auto;
+      height: auto;
+      min-height: 0;
+      margin-bottom: 8px;
+      padding: 8px;
+    }
+
+    .related-cases {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 16px 0 0;
+    }
+
+    .related-cases .sidebar-section-title {
+      grid-column: 1 / -1;
+    }
+
+    .related-card {
+      grid-template-columns: 56px minmax(0, 1fr);
+      min-height: 76px;
+      padding: 8px 28px 8px 8px;
+    }
+
+    .related-thumb {
+      width: 56px;
+    }
+
+    .dl-content {
+      padding-bottom: 64px;
+    }
+
+    .dl-brief-grid,
+    .dl-two-grid,
+    .dl-three-grid,
+    .dl-overview,
+    .dl-overview-list,
+    .dl-findings-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .dl-overview-title {
+      min-height: 180px;
+      font-size: clamp(42px, 16vw, 74px);
+    }
   }
 </style>
 </head>
 <body>
-  <div class="case-page">
-    <a href="../index.html" class="case-back">
-      <svg viewBox="0 0 16 16"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-      Back
-    </a>
-    <div class="case-header">
-      <h1>Dolyami x Lamoda - mobile app</h1>
-    </div>
-    <div class="case-gallery-full">
-      <img src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/case5-new.png" alt="Dolyami x Lamoda">
-    </div>
+  <div class="dl-shell">
+    <aside class="dl-sidebar" aria-label="Case navigation">
+      <header class="dl-sidebar-head">
+        <a class="dl-icon-link" href="../index.html" data-transition aria-label="Back to home">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        </a>
+        <h1 class="dl-title">Dolyami x Lamoda</h1>
+        <a class="dl-icon-link" href="uvc.html" data-transition aria-label="Next case">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3 L11 8 L6 13" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        </a>
+      </header>
 
-    <!-- About the project -->
-    <div class="case-body">
-      <h2>About the project</h2>
-      <p><strong>Dolyami</strong> — BNPL service from T-Bank. Divides the purchase into 4 equal payments every 2 weeks, without interest. Works in checkouts of Lamoda, Golden Apple, Letual and other stores.</p>
-    </div>
+      <nav class="related-cases" aria-label="Other cases">
+        <p class="sidebar-section-title">Other cases</p>
+        <a class="related-card" href="uvc.html" data-transition>
+          <span class="related-thumb"><img src="../media/uvc-test-screen.jpg?v=20260502-fast" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>Uvelircentr</strong>
+            <span>mobile app design</span>
+          </span>
+        </a>
+        <a class="related-card" href="kern.html" data-transition>
+          <span class="related-thumb"><img src="../media/kern/kern-case/preview-1-superkern.jpg?v=20260503-preview" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>KERN</strong>
+            <span>concept website</span>
+          </span>
+        </a>
+        <a class="related-card" href="../index.html" data-transition>
+          <span class="related-thumb"><img src="../media/pd-vremnno.jpg?v=20260503-pd-desktop" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>Poison Drop</strong>
+            <span>design system</span>
+          </span>
+        </a>
+      </nav>
+    </aside>
 
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 40px 0;">
+    <main class="dl-content">
+      <div class="dl-case-flow">
+        <figure class="dl-media hero">
+          <img src="../media/case5-new.png" alt="Dolyami x Lamoda">
+        </figure>
 
-    <!-- Problem -->
-    <div class="case-body">
-      <h2>Problem</h2>
-      <p>Users see the “Pay with Dolyami” button, but are afraid to click. Triggers: “this is a loan”, “there will be hidden interest”, “will ruin your credit history”. High drop-off at the stage of choosing a payment method.</p>
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 40px 0;">
-
-    <!-- Task -->
-    <div class="case-body">
-      <h2>Task</h2>
-      <p>Rethink the widget in the Lamoda checkout and the first onboarding screen. Goal: the user understands in 3 seconds - this is not a loan, it’s free, it’s fast.</p>
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 40px 0;">
-
-    <!-- Research (collapsible) -->
-    <div class="collapsible">
-      <button class="collapsible-toggle">
-        <span class="collapsible-icon"><span class="line"></span><span class="line"></span></span>
-        Research: why are people afraid of installments?
-      </button>
-      <div class="collapsible-content">
-        <div class="collapsible-content-inner">
-          <p>I started by analyzing real user reviews of Dolyami. I identified three key fears:</p>
-          <p><strong>Creditophobia</strong> “I don’t want to get involved with loans for sneakers. What if this goes to the credit bureau?”</p>
-          <p><strong>Complexity</strong> “Now they’ll force you to take a photo of your passport and fill out a form... It’s easier to pay with a card right away.”</p>
-          <p><strong>Forgetfulness</strong> - “What if I forget when the next payment is? Will I be fined?”</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/research.png" alt="Study">
-          </div>
-          <p>Separately, I recorded: after the introduction of the service fee, negativity in reviews increased sharply. Users perceive it as a hidden overpayment and go to competitors who promise “0% and no commissions.”</p>
+        <div class="dl-card-grid dl-brief-grid" aria-label="Project brief">
+          <article class="dl-brief-card">
+            <h2>task</h2>
+            <p>Rethink the Dolyami widget in the Lamoda checkout and the first onboarding screen so the user understands in 3 seconds: this is not a loan, it is free, and it is fast.</p>
+          </article>
+          <article class="dl-brief-card">
+            <h2>my role</h2>
+            <p>Research, segmentation, JTBD, competitor analysis, hypothesis prioritization, interviews, flow redesign and interface concept for the payment scenario.</p>
+          </article>
         </div>
-      </div>
-    </div>
 
-    <!-- Segmentation (collapsible) -->
-    <div class="collapsible">
-      <button class="collapsible-toggle">
-        <span class="collapsible-icon"><span class="line"></span><span class="line"></span></span>
-        Segmentation
-      </button>
-      <div class="collapsible-content">
-        <div class="collapsible-content-inner">
-          <p>I identified 3 segments in relation to money and risks:</p>
-          <p><strong>Skeptic</strong> — looks for a catch, reads reviews, and worries about hidden charges. If something feels like a loan or commission, they leave and return only after re-checking the terms. Main goal: to pay in parts without feeling in debt.</p>
-          <p><strong>Controller</strong> - a pragmatist who plans expenses. They have the money, but do not want to take the full amount out of circulation at once. They use the service as a budgeting tool and compare scenarios: if Dolyami charges a fee and competitors do not, they choose the more profitable option.</p>
-          <p><strong>Impulsive</strong> — makes decisions quickly, focuses on convenience and emotions. Any delay, complicated processing or passport requirement destroys the purchasing impulse. The frequency depends on triggers: holidays, promotions, new products.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/segments.png" alt="Segments">
+        <section class="dl-overview" aria-label="About the project">
+          <h2 class="dl-overview-title">About</h2>
+          <div class="dl-overview-list">
+            <div class="dl-overview-item">
+              <h2>product</h2>
+              <p>Dolyami is a BNPL service from T-Bank. It splits a purchase into four equal payments every two weeks, without interest.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>context</h2>
+              <p>The service works in checkouts of Lamoda, Golden Apple, Letual and other stores, but users still read installments through the lens of loans.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>problem</h2>
+              <p>Users saw the “Pay with Dolyami” button, but were afraid to click: hidden interest, credit history, passport checks and fines.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>metric</h2>
+              <p>The key risk was drop-off at payment-method selection, where fear appeared before the product could explain itself.</p>
+            </div>
           </div>
+        </section>
+
+        <section class="dl-overview" aria-label="Research">
+          <h2 class="dl-overview-title">Research</h2>
+          <div class="dl-overview-list">
+            <div class="dl-overview-item">
+              <h2>creditophobia</h2>
+              <p>“I don’t want to get involved with loans for sneakers. What if this goes to the credit bureau?”</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>complexity</h2>
+              <p>“Now they’ll force me to take a photo of my passport and fill out a form. It’s easier to pay with a card.”</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>forgetfulness</h2>
+              <p>“What if I forget when the next payment is? Will I be fined?”</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>commission</h2>
+              <p>After service fees appeared, users started reading them as hidden overpayment and compared Dolyami with “0%” competitors.</p>
+            </div>
+          </div>
+        </section>
+
+        <figure class="dl-media dl-wide-media is-contain">
+          <img loading="lazy" src="../media/dolyami/research.png" alt="Dolyami user review research">
+        </figure>
+
+        <section class="dl-overview" aria-label="Segments and jobs">
+          <h2 class="dl-overview-title">Segments</h2>
+          <div class="dl-overview-list">
+            <div class="dl-overview-item">
+              <h2>skeptic</h2>
+              <p>Looks for a catch, reads reviews, worries about hidden charges and wants to pay in parts without feeling in debt.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>controller</h2>
+              <p>Plans expenses and compares scenarios: if Dolyami charges a fee and competitors do not, they leave.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>impulsive</h2>
+              <p>Makes decisions quickly. Any delay, complicated flow or passport requirement destroys the purchase impulse.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>job story</h2>
+              <p>When I split a fashion purchase, I want control and clarity, so I can buy now without feeling trapped by a financial product.</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="dl-media-grid dl-two-grid" aria-label="Segments and jobs visuals">
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/segments.png" alt="Dolyami segments">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/jobs.png" alt="Dolyami JTBD">
+          </figure>
         </div>
-      </div>
-    </div>
 
-    <!-- JTBD (collapsible) -->
-    <div class="collapsible">
-      <button class="collapsible-toggle">
-        <span class="collapsible-icon"><span class="line"></span><span class="line"></span></span>
-        Jobs
-      </button>
-      <div class="collapsible-content">
-        <div class="collapsible-content-inner">
-          <p>For each segment I formulated a Job Story:</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/jobs.png" alt="JTBD">
+        <section class="dl-overview" aria-label="Competitive analysis">
+          <h2 class="dl-overview-title">Benchmark</h2>
+          <div class="dl-overview-list">
+            <div class="dl-overview-item">
+              <h2>yandex split</h2>
+              <p>Shows commission in rubles, not as a percentage. The toggle turns Split on directly in the cart.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>golden apple</h2>
+              <p>Sells the whole BNPL category, while Dolyami’s “service fee is possible” reads like a warning.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>letual</h2>
+              <p>Uses accordion mechanics: four payments are visible immediately in the payment-method list.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>avito / plait</h2>
+              <p>Minimizes entry: first payment from 1 ruble and a visible “0%” badge on the free plan.</p>
+            </div>
           </div>
+        </section>
+
+        <div class="dl-media-grid dl-three-grid" aria-label="Competitive analysis screens">
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/k1.png" alt="Competitive analysis - Yandex Split">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/k2.png" alt="Competitive analysis - Golden Apple">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/k3.png" alt="Competitive analysis - Letual">
+          </figure>
         </div>
-      </div>
-    </div>
 
-    <!-- Competitive analysis (collapsible) -->
-    <div class="collapsible">
-      <button class="collapsible-toggle">
-        <span class="collapsible-icon"><span class="line"></span><span class="line"></span></span>
-        Competitive Analysis
-      </button>
-      <div class="collapsible-content">
-        <div class="collapsible-content-inner">
-          <p>I analyzed the BNPL flow of 5 platforms: Lamoda (current), Yandex Market/Split, Letual, Golden Apple, Avito/Plait. For each - the full path from the product card to payment with annotations.</p>
-          <p><strong>Key Findings:</strong></p>
-          <p>Yandex Split shows the commission in rubles, and not as a percentage - this reduces anxiety. The toggle switch allows you to enable Split directly in the cart, without going to checkout.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/k1.png" alt="Competitive analysis - Yandex Split">
+        <section class="dl-overview" aria-label="Interviews">
+          <h2 class="dl-overview-title">Interviews</h2>
+          <div class="dl-overview-list">
+            <div class="dl-overview-item">
+              <h2>alex</h2>
+              <p>Skeptic. Dolyami felt like a “debt trap”; speed made the flow feel suspicious, not convenient.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>olga</h2>
+              <p>Anxious avoider. She reacted calmly to “installment plan” and trusted the service more when T-Bank was explicit.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>nastya</h2>
+              <p>Pragmatist. Uses BNPL to buy more at once, but worries that the product sounds financially shameful.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>confirmed</h2>
+              <p>Price transparency, visual steps, bank branding and anti-bureaucracy were stronger than a promise of maximum speed.</p>
+            </div>
           </div>
-          <p>Golden Apple sells the entire BNPL category, not a specific service. At the point of comparison, against the backdrop of Split and Podeli, which promise “no interest or overpayments,” the signature of Dolyami “a service fee is possible” looks like a warning about the threat.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/k2.png" alt="Competitive Analysis – Golden Apple">
-          </div>
-          <p>Letual uses accordion mechanics - 4 payments are immediately visible in the list of payment methods.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/k3.png" alt="Competitive Analysis - Letual">
-          </div>
-          <p>Avito/Plait minimizes the barrier to entry: the first payment is from 1 ruble, the “0%” badge on the free plan.</p>
-          <div style="background: #F3F3F3; border-radius: 8px; padding: 14px 18px; margin: 8px 0 24px;"><p style="margin-bottom: 0; font-weight: 500;">Conclusion: a new Lamoda user has no rational reasons to choose Dolyami among competitors.</p></div>
+        </section>
+
+        <div class="dl-media-grid dl-three-grid" aria-label="Interview materials">
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/in1.png" alt="Alex interview">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/in2.png" alt="Olga interview">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/in3.png" alt="Nastya interview">
+          </figure>
         </div>
-      </div>
-    </div>
 
-    <!-- Hypotheses (collapsible) -->
-    <div class="collapsible">
-      <button class="collapsible-toggle">
-        <span class="collapsible-icon"><span class="line"></span><span class="line"></span></span>
-        Hypotheses
-      </button>
-      <div class="collapsible-content">
-        <div class="collapsible-content-inner">
-          <p>Based on reviews, segmentation and competitive analysis, I formulated 7 product hypotheses linked to metrics and 6 behavioral hypotheses.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <div style="width:100%;aspect-ratio:16/9;background:#F3F3F3;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999;font-size:16px;">Image placeholder</div>
+        <section class="dl-overview" aria-label="Solution">
+          <h2 class="dl-overview-title">Solution</h2>
+          <div class="dl-overview-list">
+            <div class="dl-overview-item">
+              <h2>entry</h2>
+              <p>A compact badge on the product card and a bottom sheet with schedule, conditions and fear removal.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>identification</h2>
+              <p>For authorized users, pre-filled fields and a “loan agreement is not drawn up” message remove the microloan association.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>payment</h2>
+              <p>Quick bank-pay buttons are primary; manual card entry remains as a fallback, not the main scenario.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>details</h2>
+              <p>Fee explanation, order composition and promo code are available in bottom sheets without leaving the payment screen.</p>
+            </div>
           </div>
-          <p>Next, I prioritized the hypotheses using the ICE method and identified the key ones for customer development.</p>
+        </section>
+
+        <div class="dl-media-grid dl-three-grid" aria-label="Solution screens first row">
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/1.png" alt="Start of registration">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/2.png" alt="Identification">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/3.png" alt="Minimal form">
+          </figure>
         </div>
-      </div>
-    </div>
 
-    <!-- In-depth interviews (collapsible) -->
-    <div class="collapsible">
-      <button class="collapsible-toggle">
-        <span class="collapsible-icon"><span class="line"></span><span class="line"></span></span>
-        In-depth interviews
-      </button>
-      <div class="collapsible-content">
-        <div class="collapsible-content-inner">
-          <p>I compiled two guides: for active BNPL users (6 blocks of questions) and for avoiders (4 blocks). Conducted in-depth interviews and tested each hypothesis on each respondent.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <div style="width:100%;aspect-ratio:16/9;background:#F3F3F3;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999;font-size:16px;">Image placeholder</div>
-          </div>
-          <p><strong>Alex (Skeptic)</strong> — pays by debit card and follows the principle “I only spend what I have.” Dolyami = “debt trap”, “button for the lazy”. He is not afraid of data checks, but of losing financial discipline. The speed of the flow scares him: “I perceive it as a slot machine button.” The only hypothesis that interested him was earning interest on reserved funds.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/in1.png" alt="Alex - Skeptic">
-          </div>
-          <p><strong>Olga (Anxious)</strong> - avoids the button and thinks that if she presses it, “they’ll immediately issue a loan.” Dolyami = “microloan”, “fraud”. But she reacts calmly to the phrase “installment plan”. She did not know that the service was from T-Bank; once she found out, her trust grew sharply. She is ready to try it for a small amount (1000₽) as a test drive.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/in2.png" alt="Olga - Anxious">
-          </div>
-          <p><strong>Nastya (Pragmatist)</strong> — an active user who buys through Podeli and Split. She uses BNPL not out of necessity, but to buy more items at once. Still, she hides it from friends: “I’m ashamed to say it, it sounds like I’m poor.” She was afraid that the data would go to the credit bureau and affect her mortgage approval.</p>
-          <div class="case-gallery-full" style="margin: 24px 0;">
-            <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/in3.png" alt="Nastya - Pragmatist">
-          </div>
+        <div class="dl-media-grid dl-two-grid" aria-label="Solution screens second row">
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/4.png" alt="New user form">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/5.png" alt="Confirmation and payment">
+          </figure>
         </div>
-      </div>
-    </div>
 
-    <!-- Summary -->
-    <div class="collapsible">
-      <button class="collapsible-toggle">
-        <span class="collapsible-icon"><span class="line"></span><span class="line"></span></span>
-        Summary: what was confirmed and what was not
-      </button>
-      <div class="collapsible-content">
-        <div class="collapsible-content-inner">
-          <p style="color: #2E7D32;"><strong>Price transparency</strong> - confirmed by all three. Commissions and conditions are ok, to be honest they are shown right away.</p>
-          <p style="color: #2E7D32;"><strong>Visual process</strong> - the strongest trigger for anxious users: “I’m afraid to click and have a loan issued immediately.” Skeptics also need a clear sense of control.</p>
-          <p style="color: #2E7D32;"><strong>Anti-bureaucracy</strong> — for Nastya and Olga, it removes the main fear of entering. For Alex it is neutral.</p>
-          <p style="color: #2E7D32;"><strong>Bank brand</strong> — critical for Olga: it removes the association with microfinance lenders. For anxious users, trust grows sharply.</p>
-          <p style="color: #F9A825;"><strong>Autonomous control</strong> - everything is different. We need controlled autonomy: advance notifications, “auto/manual” selection.</p>
-          <p style="color: #C62828;"><strong>Simplicity vs speed</strong> - not confirmed for all three. Speed ​​reduces trust. Don’t sell “in 1 click”, but add “smart friction”: steps, checkboxes, confirmation screen.</p>
+        <div class="dl-media-grid dl-two-grid" aria-label="Payment details screens">
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/6.png" alt="Manual card entry">
+          </figure>
+          <figure class="dl-media dl-screen-media is-contain">
+            <img loading="lazy" src="../media/dolyami/7.png" alt="Bottom sheets">
+          </figure>
         </div>
+
+        <section class="dl-overview" aria-label="Product findings">
+          <h2 class="dl-overview-title">Findings</h2>
+          <div class="dl-overview-list">
+            <div class="dl-overview-item">
+              <h2>perception</h2>
+              <p>Users’ fears are not about the interface only, but about the category. As long as the widget looks like a bank, button redesign will not help.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>speed</h2>
+              <p>“Simplicity and speed = conversion” was not confirmed. Too much speed raised suspicion, so the concept needed smart friction.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>communication</h2>
+              <p>Dolyami loses not in product mechanics, but in communication: competitors promise “no interest,” while Dolyami warns about fees.</p>
+            </div>
+            <div class="dl-overview-item">
+              <h2>focus</h2>
+              <p>ICE prioritization helped cut off weaker hypotheses and keep the redesign focused on trust, clarity and controlled autonomy.</p>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 40px 0;">
-
-    <!-- Solution -->
-    <div class="case-body">
-      <h2>Solution</h2>
-      <p>Designed a complete flow of Dolyami in three stages:</p>
-      <div style="background: #F3F3F3; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;"><p style="margin-bottom: 0; font-weight: 500;">Start of registration</p></div>
-      <p>A compact badge on the product card, a bottom sheet with a payment schedule and removal of fears, an accordion in the cart with a toggle and a T-Bank icon on the CTA to increase trust - three touch points that take the user from interest to payment without leaving the funnel.</p>
-    </div>
-
-    <div class="case-gallery-full" style="margin-top: 24px;">
-      <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/1.png" alt="Start of registration">
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 40px 0;">
-
-    <div class="case-body">
-      <div style="background: #F3F3F3; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;"><p style="margin-bottom: 0; font-weight: 500;">Identification</p></div>
-      <p>For an authorized user with pre-filled fields - full name, date of birth, email. The subtitle “loan agreement is not drawn up” removes the main fear from the study (7 out of 10 associated the service with a microloan).</p>
-    </div>
-
-    <div class="case-gallery-full" style="margin-top: 24px;">
-      <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/2.png" alt="Identification">
-    </div>
-
-    <div class="case-body" style="margin-top: 32px;">
-      <p>Minimum form: one field + button. There are no extra steps - the entry threshold is as low as possible.</p>
-    </div>
-
-    <div class="case-gallery-full" style="margin-top: 24px;">
-      <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/3.png" alt="Minimal form">
-    </div>
-
-    <div class="case-body" style="margin-top: 32px;">
-      <p>For a new user, the same three fields without a passport - the form does not look like a loan app. The same subtitle about the lack of a loan agreement.</p>
-    </div>
-
-    <div class="case-gallery-full" style="margin-top: 24px;">
-      <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/4.png" alt="Solution">
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 40px 0;">
-
-    <div class="case-body">
-      <div style="background: #F3F3F3; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;"><p style="margin-bottom: 0; font-weight: 500;">Confirmation and payment</p></div>
-      <p>Visually, the payment screen is closer to a lifestyle service than to a banking interface - a card with a custom gradient. Payment methods have been redesigned: instead of manually entering details, there are quick buttons AlfaPay, SberPay, SBP and T‑Pay with a transition to the bank app. Manual card entry remains, but as a fallback option, not the main scenario.</p>
-    </div>
-
-    <div class="case-gallery-full" style="margin-top: 24px;">
-      <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/5.png" alt="Confirmation and payment">
-    </div>
-
-    <div class="case-body" style="margin-top: 32px;">
-      <p>Manually entering a card remains as a backup scenario - the service remembers it and shows it among the saved ones the next time you make a purchase, reducing repeated payment to one touch.</p>
-    </div>
-
-    <div class="case-gallery-full" style="margin-top: 24px;">
-      <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/6.png" alt="Manual card entry">
-    </div>
-
-    <div class="case-body" style="margin-top: 32px;">
-      <p>Three bottom sheets on top of the payment screen - each is opened by tapping on the corresponding element: the info icon shows an explanation of the service fee in simple language, the “1 product” link reveals the composition of the order with the price, the promotional code field - enter and apply the discount. All additional information is available without leaving the payment screen.</p>
-    </div>
-
-    <div class="case-gallery-full" style="margin-top: 24px;">
-      <img loading="lazy" src="https://res.cloudinary.com/der7innqu/image/upload/f_auto,q_auto/media/lamoda/7.png" alt="Bottom sheets">
-    </div>
-
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 40px 0;">
-
-    <!-- Product findings -->
-    <div class="case-body">
-      <h2>Product findings</h2>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div style="background: #F3F3F3; border-radius: 8px; padding: 16px 18px;"><p style="margin-bottom: 0;">Review analysis turned out to be more valuable than I expected. Users’ fears are not about the interface, but about the perception of the category. As long as the widget looks like a bank, no amount of button redesign will help.</p></div>
-        <div style="background: #F3F3F3; border-radius: 8px; padding: 16px 18px;"><p style="margin-bottom: 0;">The interviews refuted one of the main hypotheses: “simplicity and speed = conversion.” All three respondents said the opposite - the speed of registration raises suspicion, not trust. This expanded the concept: instead of “register in 10 seconds” - visual steps, confirmations, control.</p></div>
-        <div style="background: #F3F3F3; border-radius: 8px; padding: 16px 18px;"><p style="margin-bottom: 0;">Competitive analysis showed that Dolyami loses not in terms of product, but in terms of communication. In one selection menu, Split and Podeli promise “no interest,” while Dolyami warns of a “possible service fee” - it’s a losing battle before it even begins.</p></div>
-        <div style="background: #F3F3F3; border-radius: 8px; padding: 16px 18px;"><p style="margin-bottom: 0;">ICE prioritization cut off weak hypotheses at the start. Smart Reserve, social proof, micro-loyalty are interesting ideas, but with a low ICE rate. Without prioritization, I would try to implement everything and blur the focus.</p></div>
-      </div>
-    </div>
-
+    </main>
   </div>
 
 <script>
-document.querySelectorAll('.collapsible-toggle').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const parent = btn.closest('.collapsible');
-    const content = parent.querySelector('.collapsible-content');
-    const inner = content.querySelector('.collapsible-content-inner');
-    if (parent.classList.contains('open')) {
-      content.style.height = content.scrollHeight + 'px';
-      requestAnimationFrame(() => { content.style.height = '0'; });
-      parent.classList.remove('open');
-    } else {
-      parent.classList.add('open');
-      content.style.height = inner.offsetHeight + 'px';
-      content.addEventListener('transitionend', () => {
-        if (parent.classList.contains('open')) content.style.height = 'auto';
-      }, { once: true });
-    }
-  });
-});
+const shell = document.querySelector('.dl-shell');
 
-document.querySelectorAll('.case-back').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
+document.querySelectorAll('[data-transition]').forEach((link) => {
+  link.addEventListener('click', (event) => {
     const href = link.getAttribute('href');
-    document.querySelector('.case-page').style.animation = 'none'; document.querySelector('.case-page').style.transition = 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
-    document.querySelector('.case-page').style.opacity = '0';
-    document.querySelector('.case-page').style.transform = 'scale(0.98)';
-    setTimeout(() => { window.location.href = href; }, 1000);
+    if (!href || href.startsWith('#') || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    shell.style.transition = 'opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1), transform 0.75s cubic-bezier(0.4, 0, 0.2, 1)';
+    shell.style.opacity = '0';
+    shell.style.transform = 'scale(0.985)';
+    setTimeout(() => { window.location.href = href; }, 620);
   });
 });
 </script>

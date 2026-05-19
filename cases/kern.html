@@ -25,12 +25,12 @@
     min-height: 100%;
     height: auto;
     overflow: auto;
-    background: #060606;
+    background: #000;
     color: #efefef;
   }
 
   body {
-    --kern-sidebar: clamp(280px, 23vw, 392px);
+    --kern-sidebar: clamp(280px, 18vw, 340px);
     --kern-gap: 8px;
     --kern-text: #efefef;
     --kern-muted: #9a9a9a;
@@ -45,7 +45,7 @@
     gap: var(--kern-gap);
     min-height: 100vh;
     padding: var(--kern-gap);
-    background: #060606;
+    background: #000;
   }
 
   .kern-sidebar {
@@ -58,68 +58,90 @@
     min-height: 560px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #090909;
+    overflow: auto;
+    padding: clamp(12px, 1vw, 18px);
+    border-radius: 6px;
+    background: #000;
     color: var(--kern-text);
   }
 
   .kern-sidebar-head {
     display: grid;
-    grid-template-columns: 46px 1fr 46px;
-    align-items: start;
-    gap: 16px;
-    padding: 8px 10px 0;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 0;
   }
 
   .kern-title {
-    justify-self: center;
-    color: #fff;
-    font-size: clamp(28px, 2vw, 34px);
-    line-height: 1;
-    font-weight: 500;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   .kern-icon-link {
-    width: 46px;
-    height: 46px;
+    width: 34px;
+    height: 34px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
-    background: var(--kern-panel);
+    border-radius: 0;
+    background: transparent;
     color: #efefef;
     transition: background 180ms ease, opacity 180ms ease;
   }
 
   .kern-icon-link:hover {
-    background: var(--kern-panel-soft);
+    background: transparent;
     opacity: 0.72;
   }
 
   .kern-icon-link svg {
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
   }
 
   .related-cases {
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    padding: 68px 10px 0;
+    gap: 10px;
+    padding: clamp(34px, 5vh, 56px) 0 0;
+  }
+
+  .sidebar-section-title {
+    margin: 0 0 6px;
+    color: #fff;
+    font-size: clamp(16px, 1.2vw, 18px);
+    line-height: 1.15;
+    font-weight: 500;
   }
 
   .related-card {
-    min-height: 92px;
+    position: relative;
+    min-height: 78px;
     display: grid;
-    grid-template-columns: 86px minmax(0, 1fr);
+    grid-template-columns: 82px minmax(0, 1fr);
     align-items: center;
-    gap: 18px;
-    padding: 10px;
-    border-radius: 8px;
+    gap: 14px;
+    padding: 8px 34px 8px 8px;
+    border-radius: 5px;
     background: var(--kern-panel);
     color: var(--kern-text);
     transition: background 180ms ease, transform 180ms ease, opacity 180ms ease;
+  }
+
+  .related-card::after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 8px;
+    height: 8px;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
   }
 
   .related-card:hover {
@@ -129,10 +151,10 @@
 
   .related-thumb {
     position: relative;
-    width: 86px;
+    width: 82px;
     aspect-ratio: 1.34;
     overflow: hidden;
-    border-radius: 7px;
+    border-radius: 4px;
     background: #262626;
   }
 
@@ -207,8 +229,11 @@
 
   .kern-case-flow {
     width: 100%;
-    max-width: 1480px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 
   .kern-media {
@@ -239,8 +264,18 @@
   .kern-info-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(28px, 7vw, 116px);
-    margin: 28px 0 40px;
+    gap: 5px;
+    margin: 0;
+  }
+
+  .kern-text-block {
+    min-height: clamp(150px, 12vw, 220px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(18px, 1.7vw, 28px);
+    border-radius: 4px;
+    background: var(--kern-panel);
   }
 
   .kern-text-block h2,
@@ -267,22 +302,28 @@
   }
 
   .kern-section {
-    margin-top: 48px;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 
   .kern-section.is-spacious {
-    margin-top: 68px;
+    margin-top: 0;
   }
 
   .kern-section-copy {
-    max-width: 1180px;
-    margin-bottom: 24px;
+    max-width: none;
+    margin-bottom: 0;
+    padding: clamp(18px, 1.7vw, 28px);
+    border-radius: 4px;
+    background: var(--kern-panel);
   }
 
   .kern-media-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    gap: 5px;
   }
 
   .kern-media-grid + .kern-section-copy,
@@ -325,8 +366,8 @@
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-auto-rows: 56px;
-    gap: 8px;
-    margin: 24px 0 28px;
+    gap: 5px;
+    margin: 0;
   }
 
   .award-link {
@@ -427,7 +468,7 @@
 
     .related-cases {
       gap: 10px;
-      padding-top: 42px;
+      padding-top: 30px;
     }
 
     .related-card {
@@ -471,14 +512,14 @@
     }
 
     .kern-sidebar-head {
-      grid-template-columns: 42px 1fr 42px;
+      grid-template-columns: auto 1fr auto;
       gap: 10px;
-      padding: 8px;
+      padding: 0;
     }
 
     .kern-icon-link {
-      width: 42px;
-      height: 42px;
+      width: 34px;
+      height: 34px;
     }
 
     .related-cases {
@@ -512,16 +553,16 @@
     }
 
     .kern-info-grid {
-      gap: 28px;
-      margin: 24px 0 34px;
+      gap: 5px;
+      margin: 0;
     }
 
     .kern-section {
-      margin-top: 38px;
+      margin-top: 0;
     }
 
     .kern-section.is-spacious {
-      margin-top: 50px;
+      margin-top: 0;
     }
 
     .kern-media-grid .kern-media,
@@ -618,6 +659,7 @@
       </header>
 
       <nav class="related-cases" aria-label="Other cases">
+        <p class="sidebar-section-title">Other cases</p>
         <a class="related-card" href="dolyami.html" data-transition>
           <span class="related-thumb"><img src="../media/case5-new.png" alt="" loading="lazy"></span>
           <span class="related-copy">
@@ -639,23 +681,6 @@
             <span>mobile app design</span>
           </span>
         </a>
-        <a class="related-card" href="../index.html" data-transition>
-          <span class="related-thumb"><img src="../media/yandex-case/1.png" alt="" loading="lazy"></span>
-          <span class="related-copy">
-            <strong>UI experiments</strong>
-            <span>UI experiments and visual systems</span>
-          </span>
-        </a>
-      </nav>
-
-      <nav class="case-section-nav" aria-label="Case sections">
-        <p>Inside the case</p>
-        <a href="#about">about the project</a>
-        <a href="#brand">brand character</a>
-        <a href="#references">references</a>
-        <a href="#product">product design</a>
-        <a href="#site-preview">the site itself</a>
-        <a href="#awards">awards</a>
       </nav>
     </aside>
 
