@@ -706,20 +706,25 @@ body.cursor-hidden * { cursor: none; }
 .archive-body {
   min-height: 100vh;
   overflow: auto;
-  background: #f7f7f7;
+  background: #10120f;
   color: #111;
 }
 
 .archive-shell {
   min-height: 100vh;
-  padding: clamp(36px, 5vw, 72px) clamp(16px, 3vw, 48px) clamp(64px, 8vw, 112px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(42px, 6vw, 96px) clamp(24px, 5vw, 72px);
 }
 
 .archive-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(42px, 6vw, 88px) clamp(18px, 2vw, 32px);
-  align-items: start;
+  position: relative;
+  width: min(100%, 1280px);
+  min-height: clamp(620px, 68vw, 820px);
+  padding: clamp(18px, 2vw, 28px);
+  overflow: hidden;
+  background: #f7f7f4;
 }
 
 .archive-case {
@@ -727,8 +732,50 @@ body.cursor-hidden * { cursor: none; }
   color: inherit;
 }
 
-.archive-case:nth-child(even) {
-  margin-top: clamp(40px, 7vw, 110px);
+.archive-grid .archive-case {
+  position: absolute;
+}
+
+.archive-case:nth-child(1) {
+  left: 3%;
+  top: 20%;
+  width: 24%;
+}
+
+.archive-case:nth-child(2) {
+  left: 34%;
+  top: 37%;
+  width: 22%;
+}
+
+.archive-case:nth-child(3) {
+  left: 61%;
+  top: 15%;
+  width: 32%;
+}
+
+.archive-case:nth-child(4) {
+  left: 5%;
+  top: 62%;
+  width: 27%;
+}
+
+.archive-case:nth-child(5) {
+  left: 38%;
+  top: 64%;
+  width: 25%;
+}
+
+.archive-case:nth-child(6) {
+  left: 69%;
+  top: 59%;
+  width: 24%;
+}
+
+.archive-case:nth-child(7) {
+  left: 34%;
+  top: 14%;
+  width: 19%;
 }
 
 .archive-media {
@@ -757,6 +804,8 @@ body.cursor-hidden * { cursor: none; }
   grid-template-columns: repeat(12, 1fr);
   column-gap: 8px;
   padding: 6px 0 0;
+  font-size: 10px;
+  line-height: 12px;
 }
 
 .archive-title-block {
@@ -990,21 +1039,32 @@ body.cursor-hidden * { cursor: none; }
   }
 
   .archive-shell {
-    padding: 56px 8px 48px;
+    display: block;
+    padding: 48px 8px;
   }
 
   .archive-grid {
+    position: static;
+    min-height: 0;
     grid-template-columns: 1fr;
+    display: grid;
     gap: 40px;
+    padding: 0;
+    overflow: visible;
+    background: transparent;
   }
 
-  .archive-case:nth-child(even) {
-    margin-top: 0;
+  .archive-grid .archive-case {
+    position: static;
+    width: 100%;
   }
 
   .archive-caption {
+    color: #f7f7f4;
     grid-template-columns: repeat(12, 1fr);
     padding-top: 8px;
+    font-size: 13.5px;
+    line-height: 15.5px;
   }
 
   .archive-title-block {
