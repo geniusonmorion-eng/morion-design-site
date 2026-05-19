@@ -716,11 +716,14 @@ body.cursor-hidden * { cursor: none; }
 }
 
 .archive-grid {
-  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(34px, 5vw, 88px) clamp(18px, 2.4vw, 42px);
   width: 100%;
   min-height: calc(100vh - clamp(56px, 8vw, 128px));
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
+  align-items: start;
 }
 
 .archive-case {
@@ -728,50 +731,39 @@ body.cursor-hidden * { cursor: none; }
   color: inherit;
 }
 
-.archive-grid .archive-case {
-  position: absolute;
-}
-
 .archive-case:nth-child(1) {
-  left: 3%;
-  top: 20%;
-  width: 24%;
+  grid-column: 1 / span 4;
+  margin-top: clamp(94px, 12vw, 180px);
 }
 
 .archive-case:nth-child(2) {
-  left: 34%;
-  top: 37%;
-  width: 22%;
+  grid-column: 5 / span 3;
+  margin-top: clamp(44px, 6vw, 96px);
 }
 
 .archive-case:nth-child(3) {
-  left: 61%;
-  top: 15%;
-  width: 32%;
+  grid-column: 8 / span 5;
+  margin-top: clamp(32px, 4vw, 72px);
 }
 
 .archive-case:nth-child(4) {
-  left: 5%;
-  top: 62%;
-  width: 27%;
+  grid-column: 1 / span 4;
+  margin-top: clamp(8px, 2vw, 32px);
 }
 
 .archive-case:nth-child(5) {
-  left: 38%;
-  top: 64%;
-  width: 25%;
+  grid-column: 5 / span 4;
+  margin-top: clamp(54px, 7vw, 116px);
 }
 
 .archive-case:nth-child(6) {
-  left: 69%;
-  top: 59%;
-  width: 24%;
+  grid-column: 9 / span 4;
+  margin-top: clamp(0px, 1.5vw, 24px);
 }
 
 .archive-case:nth-child(7) {
-  left: 34%;
-  top: 14%;
-  width: 19%;
+  grid-column: 5 / span 3;
+  margin-top: clamp(10px, 3vw, 46px);
 }
 
 .archive-media {
@@ -822,6 +814,22 @@ body.cursor-hidden * { cursor: none; }
   grid-column: 10 / span 3;
   text-align: right;
   white-space: nowrap;
+}
+
+@media (min-width: 700px) and (max-width: 980px) {
+  .archive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 24px;
+  }
+
+  .archive-grid .archive-case {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+  .archive-grid .archive-case:nth-child(even) {
+    margin-top: 56px;
+  }
 }
 
 /* ======================================================================
@@ -1051,6 +1059,8 @@ body.cursor-hidden * { cursor: none; }
   }
 
   .archive-grid .archive-case {
+    grid-column: auto;
+    margin-top: 0;
     position: static;
     width: 100%;
   }
