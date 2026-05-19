@@ -733,12 +733,12 @@ body.cursor-hidden * { cursor: none; }
 
 .archive-case:nth-child(1) {
   grid-column: 1 / span 4;
-  margin-top: clamp(94px, 12vw, 180px);
+  margin-top: clamp(32px, 4vw, 72px);
 }
 
 .archive-case:nth-child(2) {
   grid-column: 5 / span 3;
-  margin-top: clamp(44px, 6vw, 96px);
+  margin-top: clamp(32px, 4vw, 72px);
 }
 
 .archive-case:nth-child(3) {
