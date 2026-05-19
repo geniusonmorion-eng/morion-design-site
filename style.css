@@ -195,7 +195,10 @@ img, video { max-width: 100%; }
   position: relative;
   overflow: hidden;
   border-radius: var(--radius);
-  background: var(--color-card);
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
 .gallery-track {
@@ -234,6 +237,8 @@ img, video { max-width: 100%; }
 .case[data-tint="g"] .slide { background-image: linear-gradient(135deg, #d9a890, #5a3a2a); }
 
 .case-meta {
+  position: relative;
+  z-index: 1;
   background: var(--color-background);
   padding: 6px 0 0;
 }
@@ -974,6 +979,11 @@ body.cursor-hidden * { cursor: none; }
   .row-label .left { grid-column: 1 / span 3; }
   .row-label .right { grid-column: 4 / span 3; }
 
+  .skills-card .row-label .left {
+    grid-column: 1 / -1;
+    white-space: nowrap;
+  }
+
   .side-padding { padding: 9px 8px 20px; }
 
   .skills-card {
@@ -990,17 +1000,18 @@ body.cursor-hidden * { cursor: none; }
   }
 
   .contact-card {
-    min-height: min(520px, calc(100svh - 140px));
+    min-height: max(680px, calc(100svh - 24px));
     padding-bottom: 0;
   }
 
   .contact-content {
-    padding: 14px 8px 0;
+    padding: 26px 12px 0;
   }
 
   .contact-title {
-    font-size: 26px;
-    line-height: 1.08;
+    max-width: 13.5em;
+    font-size: clamp(28px, 8vw, 34px);
+    line-height: 1.06;
   }
 
   .desktop-break {
@@ -1009,13 +1020,22 @@ body.cursor-hidden * { cursor: none; }
 
   .contact-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
-    padding-bottom: 20px;
+    gap: 26px;
+    margin-top: 30px;
+    padding-bottom: 34px;
   }
 
   .contact-col {
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .contact-col p + p {
+    margin-top: 7px;
+  }
+
+  .contact-strong {
+    margin-bottom: 8px;
   }
 
   .contact-gap {
@@ -1030,11 +1050,11 @@ body.cursor-hidden * { cursor: none; }
   }
 
   .contact-footer {
-    gap: 12px;
-    margin: 0 8px;
-    padding-bottom: 64px;
-    font-size: 16px;
-    line-height: 20px;
+    gap: 16px;
+    margin: auto 0 0;
+    padding: 20px 12px 88px;
+    font-size: 18px;
+    line-height: 22px;
   }
 
   .contact-social {
@@ -1083,6 +1103,13 @@ body.cursor-hidden * { cursor: none; }
 
   .archive-year {
     grid-column: 10 / span 3;
+  }
+}
+
+@media (min-width: 700px) {
+  .case-meta {
+    margin-top: -1px;
+    padding-top: 7px;
   }
 }
 

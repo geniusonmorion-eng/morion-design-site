@@ -313,6 +313,10 @@
     aspect-ratio: 1904 / 1292;
   }
 
+  .dl-solution-grid {
+    grid-template-columns: 1fr;
+  }
+
   .dl-note {
     min-height: clamp(126px, 10vw, 190px);
     display: flex;
@@ -638,7 +642,7 @@
           </div>
         </section>
 
-        <div class="dl-media-grid dl-three-grid" aria-label="Solution screens first row">
+        <div class="dl-media-grid dl-three-grid dl-solution-grid" aria-label="Solution screens first row">
           <figure class="dl-media dl-screen-media is-contain">
             <img loading="lazy" src="../media/dolyami/1.png" alt="Start of registration">
           </figure>
@@ -650,7 +654,7 @@
           </figure>
         </div>
 
-        <div class="dl-media-grid dl-two-grid" aria-label="Solution screens second row">
+        <div class="dl-media-grid dl-two-grid dl-solution-grid" aria-label="Solution screens second row">
           <figure class="dl-media dl-screen-media is-contain">
             <img loading="lazy" src="../media/dolyami/4.png" alt="New user form">
           </figure>
@@ -659,7 +663,7 @@
           </figure>
         </div>
 
-        <div class="dl-media-grid dl-two-grid" aria-label="Payment details screens">
+        <div class="dl-media-grid dl-two-grid dl-solution-grid" aria-label="Payment details screens">
           <figure class="dl-media dl-screen-media is-contain">
             <img loading="lazy" src="../media/dolyami/6.png" alt="Manual card entry">
           </figure>
