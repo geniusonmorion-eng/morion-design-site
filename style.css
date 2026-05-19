@@ -706,25 +706,21 @@ body.cursor-hidden * { cursor: none; }
 .archive-body {
   min-height: 100vh;
   overflow: auto;
-  background: #10120f;
+  background: #fff;
   color: #111;
 }
 
 .archive-shell {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(42px, 6vw, 96px) clamp(24px, 5vw, 72px);
+  padding: clamp(28px, 4vw, 64px);
 }
 
 .archive-grid {
   position: relative;
-  width: min(100%, 1280px);
-  min-height: clamp(620px, 68vw, 820px);
-  padding: clamp(18px, 2vw, 28px);
+  width: 100%;
+  min-height: calc(100vh - clamp(56px, 8vw, 128px));
+  padding: 0;
   overflow: hidden;
-  background: #f7f7f4;
 }
 
 .archive-case {
@@ -1060,7 +1056,7 @@ body.cursor-hidden * { cursor: none; }
   }
 
   .archive-caption {
-    color: #f7f7f4;
+    color: #111;
     grid-template-columns: repeat(12, 1fr);
     padding-top: 8px;
     font-size: 13.5px;
