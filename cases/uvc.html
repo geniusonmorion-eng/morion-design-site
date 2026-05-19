@@ -66,7 +66,7 @@
 
   .uvc-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: var(--uvc-sidebar-current) minmax(0, 1fr);
     gap: var(--uvc-gap);
     min-height: 100vh;
     padding: var(--uvc-gap);
@@ -363,7 +363,7 @@
   }
 
   .uvc-content {
-    grid-column: 1;
+    grid-column: 2;
     min-width: 0;
     padding-bottom: 96px;
   }
@@ -1281,6 +1281,51 @@
 </head>
 <body>
   <div class="uvc-shell">
+    <aside class="uvc-sidebar" aria-label="Case navigation">
+      <header class="uvc-sidebar-head">
+        <a class="uvc-icon-link" href="../index.html" data-transition aria-label="Back to home">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        </a>
+        <h1 class="uvc-title">Uvelircentr</h1>
+        <div class="uvc-sidebar-actions">
+          <button class="uvc-theme-toggle" type="button" data-theme-toggle aria-label="Enable light theme" aria-pressed="false">
+            <span aria-hidden="true"></span>
+          </button>
+          <button class="uvc-icon-link uvc-sidebar-collapse" type="button" data-sidebar-toggle aria-label="Collapse sidebar" aria-expanded="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4" width="7" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="12.5" y="4" width="8" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <nav class="related-cases" aria-label="Other cases">
+        <p class="sidebar-section-title">Other cases</p>
+        <a class="related-card" href="kern.html" data-transition>
+          <span class="related-thumb"><img src="../media/kern/kern-case/preview-1-superkern.jpg?v=20260503-preview" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>KERN</strong>
+            <span>concept website</span>
+          </span>
+        </a>
+        <a class="related-card" href="dolyami.html" data-transition>
+          <span class="related-thumb"><img src="../media/case5-new.png" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>Dolyami</strong>
+            <span>mobile app design</span>
+          </span>
+        </a>
+        <a class="related-card" href="../index.html" data-transition>
+          <span class="related-thumb"><img src="../media/pd-vremnno.jpg?v=20260503-pd-desktop" alt="" loading="lazy"></span>
+          <span class="related-copy">
+            <strong>Poison Drop</strong>
+            <span>design system</span>
+          </span>
+        </a>
+      </nav>
+    </aside>
+
     <main class="uvc-content">
       <div class="uvc-case-flow">
         <figure class="uvc-media uvc-hero-video" id="about" aria-label="Uvelircentr case video">
@@ -1599,6 +1644,164 @@
 <script>
 const shell = document.querySelector('.uvc-shell');
 const caseVideos = Array.from(document.querySelectorAll('.uvc-media video'));
+const themeToggle = document.querySelector('[data-theme-toggle]');
+const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
+const themeStorageKey = 'uvc-case-theme';
+const sidebarStorageKey = 'uvc-sidebar-collapsed';
+const hasGsap = typeof window.gsap !== 'undefined';
+
+function clamp(value, min = 0, max = 1) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function expoInOut(value) {
+  if (hasGsap && window.gsap.parseEase) return window.gsap.parseEase('expo.inOut')(value);
+  if (value === 0 || value === 1) return value;
+  if (value < 0.5) return Math.pow(2, 20 * value - 10) / 2;
+  return (2 - Math.pow(2, -20 * value + 10)) / 2;
+}
+
+function animateProp(proxy, prop, target, options = {}) {
+  const { duration = 1, ease = expoInOut, onUpdate, onComplete } = options;
+  if (hasGsap) {
+    window.gsap.to(proxy, {
+      [prop]: target,
+      duration,
+      ease: 'expo.inOut',
+      overwrite: 'auto',
+      onUpdate,
+      onComplete
+    });
+    return;
+  }
+
+  const from = proxy[prop];
+  const started = performance.now();
+  function frame(now) {
+    const progress = clamp((now - started) / (duration * 1000));
+    proxy[prop] = from + (target - from) * ease(progress);
+    onUpdate?.();
+    if (progress < 1) requestAnimationFrame(frame);
+    else onComplete?.();
+  }
+  requestAnimationFrame(frame);
+}
+
+function setUvcTheme(theme, shouldStore = true) {
+  const nextTheme = theme === 'light' ? 'light' : 'dark';
+  document.body.dataset.uvcTheme = nextTheme;
+
+  if (themeToggle) {
+    const isLight = nextTheme === 'light';
+    themeToggle.setAttribute('aria-pressed', String(isLight));
+    themeToggle.setAttribute('aria-label', isLight ? 'Enable dark theme' : 'Enable light theme');
+  }
+
+  if (shouldStore) {
+    try {
+      localStorage.setItem(themeStorageKey, nextTheme);
+    } catch (_) {}
+  }
+}
+
+let savedTheme = 'dark';
+try {
+  savedTheme = localStorage.getItem(themeStorageKey) || 'dark';
+} catch (_) {}
+setUvcTheme(savedTheme, false);
+
+themeToggle?.addEventListener('click', () => {
+  setUvcTheme(document.body.dataset.uvcTheme === 'light' ? 'dark' : 'light');
+});
+
+const sidebarProxy = { ratio: 1 };
+let sidebarTweening = false;
+
+function expandedSidebarWidth() {
+  if (window.matchMedia('(max-width: 780px)').matches) {
+    return Math.max(0, window.innerWidth - 16);
+  }
+
+  if (window.matchMedia('(max-width: 1040px)').matches) {
+    return 260;
+  }
+
+  return Math.min(340, Math.max(280, window.innerWidth * 0.18));
+}
+
+function applySidebarRatio(ratio) {
+  if (!shell) return;
+
+  const nextRatio = clamp(ratio);
+  const collapsedWidth = 54;
+  const expandedWidth = expandedSidebarWidth();
+  const currentWidth = collapsedWidth + (expandedWidth - collapsedWidth) * nextRatio;
+  const contentOpacity = clamp((nextRatio - 0.08) / 0.7);
+
+  shell.style.setProperty('--uvc-sidebar-current', `${currentWidth}px`);
+  shell.style.setProperty('--uvc-sidebar-content-opacity', String(contentOpacity));
+  shell.style.setProperty('--uvc-sidebar-content-shift', `${(1 - nextRatio) * -10}px`);
+  shell.style.setProperty('--uvc-sidebar-actions-gap', `${2 * nextRatio}px`);
+  shell.style.setProperty('--uvc-sidebar-back-width', `${34 * nextRatio}px`);
+  shell.style.setProperty('--uvc-sidebar-toggle-width', `${48 * nextRatio}px`);
+  shell.style.setProperty('--uvc-sidebar-collapse-width', `${28 + 6 * (1 - nextRatio)}px`);
+  shell.style.setProperty('--uvc-sidebar-collapse-x', `${4 * nextRatio}px`);
+}
+
+function setSidebarCollapsed(isCollapsed, shouldStore = true, immediate = false) {
+  if (!shell) return;
+  const targetRatio = isCollapsed ? 0 : 1;
+  if (sidebarTweening && !immediate) return;
+
+  if (sidebarToggle) {
+    sidebarToggle.setAttribute('aria-expanded', String(!isCollapsed));
+    sidebarToggle.setAttribute('aria-label', isCollapsed ? 'Expand sidebar' : 'Collapse sidebar');
+  }
+
+  if (shouldStore) {
+    try {
+      localStorage.setItem(sidebarStorageKey, String(isCollapsed));
+    } catch (_) {}
+  }
+
+  if (immediate) {
+    sidebarProxy.ratio = targetRatio;
+    shell.classList.toggle('is-sidebar-collapsed', isCollapsed);
+    shell.classList.remove('is-sidebar-animating');
+    applySidebarRatio(sidebarProxy.ratio);
+    return;
+  }
+
+  sidebarTweening = true;
+  shell.classList.add('is-sidebar-animating');
+  shell.classList.toggle('is-sidebar-collapsed', isCollapsed);
+
+  animateProp(sidebarProxy, 'ratio', targetRatio, {
+    duration: 0.9,
+    onUpdate: () => applySidebarRatio(sidebarProxy.ratio),
+    onComplete: () => {
+      sidebarProxy.ratio = targetRatio;
+      applySidebarRatio(sidebarProxy.ratio);
+      shell.classList.toggle('is-sidebar-collapsed', isCollapsed);
+      shell.classList.remove('is-sidebar-animating');
+      sidebarTweening = false;
+    }
+  });
+}
+
+let savedSidebarCollapsed = false;
+try {
+  savedSidebarCollapsed = localStorage.getItem(sidebarStorageKey) === 'true';
+} catch (_) {}
+setSidebarCollapsed(savedSidebarCollapsed, false, true);
+
+sidebarToggle?.addEventListener('click', () => {
+  setSidebarCollapsed(!shell?.classList.contains('is-sidebar-collapsed'));
+});
+
+window.addEventListener('resize', () => {
+  applySidebarRatio(sidebarProxy.ratio);
+}, { passive: true });
 
 function playCaseVideo(video) {
   if (video.dataset.loadRequested !== 'true' && video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
