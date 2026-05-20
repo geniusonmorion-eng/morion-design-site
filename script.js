@@ -576,7 +576,7 @@ function setupGalleries() {
 
 function accordionPads() {
 	if (window.innerWidth >= 1200) {
-		return { topBase: 12, topExtra: 18, bottomBase: 26, bottomExtra: 20 };
+		return { topBase: 12, topExtra: 18, bottomBase: 46, bottomExtra: 20 };
 	}
 	if (window.innerWidth >= 700) {
 		return { topBase: 9, topExtra: 11, bottomBase: 32, bottomExtra: 0 };
