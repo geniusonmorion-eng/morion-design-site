@@ -209,6 +209,20 @@ img, video { max-width: 100%; }
   will-change: transform;
 }
 
+@media (min-width: 700px) {
+  .case .gallery::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    z-index: 2;
+    height: 5px;
+    background: var(--color-background);
+    pointer-events: none;
+  }
+}
+
 .slide {
   position: relative;
   flex: 0 0 100%;
@@ -1108,8 +1122,8 @@ body.cursor-hidden * { cursor: none; }
 
 @media (min-width: 700px) {
   .case-meta {
-    margin-top: -1px;
-    padding-top: 7px;
+    margin-top: -4px;
+    padding-top: 10px;
   }
 }
 
