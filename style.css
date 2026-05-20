@@ -154,7 +154,9 @@ img, video { max-width: 100%; }
 .case {
   display: flex;
   flex-direction: column;
-  background: transparent;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--color-background);
 }
 
 .case-filters {
@@ -194,7 +196,7 @@ img, video { max-width: 100%; }
   aspect-ratio: 1904 / 1292;
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius);
+  border-radius: var(--radius) var(--radius) 0 0;
   border: 0;
   outline: 0;
   box-shadow: none;
