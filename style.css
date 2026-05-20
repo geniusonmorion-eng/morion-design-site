@@ -152,7 +152,7 @@ img, video { max-width: 100%; }
    Work column
    ====================================================================== */
 .case {
-  --case-radius: 8px;
+  --case-radius: var(--radius);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1110,13 +1110,6 @@ body.cursor-hidden * { cursor: none; }
 
   .archive-year {
     grid-column: 10 / span 3;
-  }
-}
-
-@media (min-width: 700px) {
-  .case-meta {
-    margin-top: -4px;
-    padding-top: 10px;
   }
 }
 
