@@ -554,14 +554,6 @@ img, video { max-width: 100%; }
   padding: 9px 12px 20px;
 }
 
-.skills-card {
-  padding-bottom: 10px;
-}
-
-.skills-section {
-  padding-bottom: 8px;
-}
-
 .services-card {
   background: #151515;
   color: var(--color-dark-text);
@@ -633,23 +625,6 @@ img, video { max-width: 100%; }
 
 .studio-copy {
   max-width: 34em;
-}
-
-.skills-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.skill-tag {
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 8px 14px;
-  border: 1px solid #202020;
-  border-radius: 6px;
-  background: #202020;
-  color: #777;
 }
 
 .contact-card {
@@ -1052,20 +1027,7 @@ body.cursor-hidden * { cursor: none; }
   .row-label .left { grid-column: 1 / span 3; }
   .row-label .right { grid-column: 4 / span 3; }
 
-  .skills-card .row-label .left {
-    grid-column: 1 / -1;
-    white-space: nowrap;
-  }
-
   .side-padding { padding: 9px 8px 20px; }
-
-  .skills-card {
-    padding-bottom: 8px;
-  }
-
-  .skills-section {
-    padding-bottom: 6px;
-  }
 
   .services-card {
     padding-bottom: 48px;
@@ -1098,11 +1060,6 @@ body.cursor-hidden * { cursor: none; }
   .services-copy span {
     grid-column: 1;
     max-width: none;
-  }
-
-  .skill-tag {
-    min-height: 28px;
-    padding: 7px 11px;
   }
 
   .contact-card {
