@@ -664,8 +664,8 @@ img, video { max-width: 100%; }
 
 .contact-col {
   color: var(--color-dark-muted);
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .contact-col p + p {
@@ -1088,8 +1088,8 @@ body.cursor-hidden * { cursor: none; }
   }
 
   .contact-col {
-    font-size: 18px;
-    line-height: 22px;
+    font-size: 12px;
+    line-height: 16px;
   }
 
   .contact-col p + p {
@@ -1275,7 +1275,11 @@ body.cursor-hidden * { cursor: none; }
     font-size: 28px;
   }
 
-  .contact-col,
+  .contact-col {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
   .contact-footer {
     font-size: 16px;
     line-height: 20px;
