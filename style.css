@@ -224,7 +224,8 @@ img, video { max-width: 100%; }
 
 .slide img,
 .slide video,
-.asset-video {
+.asset-video,
+.asset-image {
   position: absolute;
   inset: 0;
   width: 100%;
