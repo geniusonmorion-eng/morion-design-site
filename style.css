@@ -557,7 +557,7 @@ img, video { max-width: 100%; }
 .services-card {
   background: #151515;
   color: var(--color-dark-text);
-  padding-bottom: 90px;
+  padding-bottom: 58px;
 }
 
 .services-label {
@@ -1030,7 +1030,7 @@ body.cursor-hidden * { cursor: none; }
   .side-padding { padding: 9px 8px 20px; }
 
   .services-card {
-    padding-bottom: 48px;
+    padding-bottom: 32px;
   }
 
   .services-label .left {
@@ -1218,7 +1218,7 @@ body.cursor-hidden * { cursor: none; }
   }
 
   .services-card {
-    padding-bottom: 70px;
+    padding-bottom: 46px;
   }
 
   .services-table {
