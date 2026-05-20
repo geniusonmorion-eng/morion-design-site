@@ -562,6 +562,67 @@ img, video { max-width: 100%; }
   padding-bottom: 8px;
 }
 
+.services-card {
+  background: #151515;
+  color: var(--color-dark-text);
+  padding-bottom: 90px;
+}
+
+.services-label {
+  padding-top: 12px;
+}
+
+.services-body {
+  padding-top: 12px;
+}
+
+.services-table {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  padding: 0 12px;
+}
+
+.service-cell {
+  min-height: 100px;
+  padding: 8px 8px 50px;
+  background: #202020;
+  color: #777;
+  overflow: hidden;
+}
+
+.service-cell-primary {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  align-content: start;
+  align-items: start;
+  gap: 8px;
+  color: var(--color-dark-text);
+}
+
+.service-arrow {
+  width: 0;
+  height: 0;
+  margin-top: 1px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid currentColor;
+}
+
+.services-copy {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 8px;
+  margin-top: 22px;
+  padding: 0 12px;
+  color: #777;
+}
+
+.services-copy span {
+  grid-column: 7 / 13;
+  max-width: 400px;
+}
+
 .text-large {
   color: var(--color-dark-text);
   font-size: 36px;
@@ -1006,6 +1067,39 @@ body.cursor-hidden * { cursor: none; }
     padding-bottom: 6px;
   }
 
+  .services-card {
+    padding-bottom: 48px;
+  }
+
+  .services-label .left {
+    grid-column: 1 / -1;
+  }
+
+  .services-body {
+    padding-top: 10px;
+  }
+
+  .services-table {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 8px;
+  }
+
+  .service-cell {
+    min-height: 96px;
+    padding: 8px;
+  }
+
+  .services-copy {
+    grid-template-columns: 1fr;
+    margin-top: 18px;
+    padding: 0 8px;
+  }
+
+  .services-copy span {
+    grid-column: 1;
+    max-width: none;
+  }
+
   .skill-tag {
     min-height: 28px;
     padding: 7px 11px;
@@ -1164,6 +1258,25 @@ body.cursor-hidden * { cursor: none; }
 
   .read-more .line {
     width: 8px;
+  }
+
+  .services-card {
+    padding-bottom: 70px;
+  }
+
+  .services-table {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .service-cell {
+    min-height: 80px;
+    padding: 8px 8px 40px;
+  }
+
+  .services-copy {
+    padding-left: 9px;
+    padding-right: 9px;
   }
 
   .label-badge,
