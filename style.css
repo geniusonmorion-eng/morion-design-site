@@ -152,11 +152,13 @@ img, video { max-width: 100%; }
    Work column
    ====================================================================== */
 .case {
+  position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: var(--radius);
-  background: var(--color-background);
+  background: transparent;
+  clip-path: inset(0 round var(--radius));
 }
 
 .case-filters {
@@ -196,7 +198,7 @@ img, video { max-width: 100%; }
   aspect-ratio: 1904 / 1292;
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius) var(--radius) 0 0;
+  border-radius: var(--radius);
   border: 0;
   outline: 0;
   box-shadow: none;
@@ -209,20 +211,6 @@ img, video { max-width: 100%; }
   display: flex;
   transition: transform 420ms cubic-bezier(.65, .05, .36, 1);
   will-change: transform;
-}
-
-@media (min-width: 700px) {
-  .case .gallery::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    z-index: 2;
-    height: 5px;
-    background: var(--color-background);
-    pointer-events: none;
-  }
 }
 
 .slide {
@@ -255,6 +243,8 @@ img, video { max-width: 100%; }
 .case-meta {
   position: relative;
   z-index: 1;
+  overflow: hidden;
+  border-radius: 0 0 var(--radius) var(--radius);
   background: var(--color-background);
   padding: 6px 0 0;
 }
