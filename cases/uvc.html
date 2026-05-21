@@ -1315,7 +1315,6 @@
     display: flex;
     max-width: calc(100vw - 32px);
     align-items: center;
-    gap: 4px;
     overflow-x: auto;
     transform: translateX(-50%);
     scrollbar-width: none;
@@ -1325,26 +1324,68 @@
     display: none;
   }
 
+  .uvc-back-button {
+    position: fixed;
+    top: 22px;
+    left: 8px;
+    z-index: 31;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    background: #e9e9e9;
+    color: #1a1a1a;
+    -webkit-backdrop-filter: blur(23px);
+    backdrop-filter: blur(23px);
+    transition: background 180ms ease, opacity 180ms ease;
+  }
+
+  .uvc-back-button:hover {
+    background: #ddd;
+  }
+
+  .uvc-back-button svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
   .uvc-nav-pill {
+    --uvc-pill-padding: 24px;
     min-height: 44px;
     flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 0 24px;
+    max-width: 220px;
+    min-width: 0;
+    margin-right: 4px;
+    overflow: hidden;
+    padding: 0 var(--uvc-pill-padding);
     border: 0;
     border-radius: var(--radius);
     background: #e9e9e9;
     color: #050505;
-    font-size: 13px;
-    line-height: 1;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
     white-space: nowrap;
     cursor: pointer;
-    transition: background 180ms ease, opacity 180ms ease, transform 180ms ease;
+    transition:
+      max-width 900ms cubic-bezier(0.4, 0, 0.2, 1),
+      padding 900ms cubic-bezier(0.4, 0, 0.2, 1),
+      margin-right 900ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 520ms ease,
+      transform 900ms cubic-bezier(0.4, 0, 0.2, 1),
+      background 180ms ease;
+  }
+
+  .uvc-nav-pill:last-child {
+    margin-right: 0;
   }
 
   .uvc-nav-pill:hover {
@@ -1364,12 +1405,26 @@
   .uvc-top-nav:not(.is-expanded) .uvc-nav-link:not(.active),
   .uvc-top-nav:not(.is-expanded) .uvc-nav-close,
   .uvc-top-nav.is-expanded .uvc-nav-toggle {
-    display: none;
+    max-width: 0;
+    width: 0;
+    flex-basis: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px) scale(0.96);
+  }
+
+  .uvc-top-nav:not(.is-expanded) .uvc-nav-toggle {
+    margin-right: 0;
   }
 
   .uvc-nav-toggle,
   .uvc-nav-close {
     width: 44px;
+    max-width: 44px;
+    --uvc-pill-padding: 0;
     padding: 0;
   }
 
@@ -1388,16 +1443,22 @@
 
   @media (max-width: 960px) {
     .uvc-top-nav {
-      left: 12px;
+      left: 56px;
       right: 12px;
       max-width: none;
       transform: none;
     }
 
+    .uvc-back-button {
+      width: 40px;
+      height: 40px;
+    }
+
     .uvc-nav-pill {
+      --uvc-pill-padding: 18px;
       min-height: 40px;
-      padding: 0 18px;
       font-size: 12px;
+      line-height: 14px;
     }
 
     .uvc-nav-toggle,
@@ -1414,14 +1475,22 @@
 
     .uvc-top-nav {
       top: 10px;
-      left: 8px;
+      left: 52px;
       right: 8px;
     }
 
+    .uvc-back-button {
+      top: 10px;
+      left: 8px;
+      width: 36px;
+      height: 36px;
+    }
+
     .uvc-nav-pill {
+      --uvc-pill-padding: 13px;
       min-height: 36px;
-      padding: 0 13px;
-      font-size: 10px;
+      font-size: 12px;
+      line-height: 14px;
     }
 
     .uvc-case-flow {
@@ -1438,6 +1507,12 @@
 </head>
 <body>
   <div class="uvc-shell">
+    <a class="uvc-back-button" href="../index.html" data-transition aria-label="Back to home">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+    </a>
+
     <nav class="uvc-top-nav" data-top-nav aria-label="Case sections">
       <a class="uvc-nav-pill uvc-nav-brand" href="../index.html" data-transition>Uvelircentr</a>
       <a class="uvc-nav-pill uvc-nav-link active" href="#about">Intro</a>
@@ -1984,11 +2059,30 @@ const sections = sectionLinks
   .map((link) => document.querySelector(link.getAttribute('href')))
   .filter(Boolean);
 
+function syncTopNavAccessibility() {
+  if (!topNav) return;
+  const isExpanded = topNav.classList.contains('is-expanded');
+  sectionLinks.forEach((link) => {
+    const isVisible = isExpanded || link.classList.contains('active');
+    link.tabIndex = isVisible ? 0 : -1;
+    link.setAttribute('aria-hidden', String(!isVisible));
+  });
+  if (topNavToggle) {
+    topNavToggle.tabIndex = isExpanded ? -1 : 0;
+    topNavToggle.setAttribute('aria-hidden', String(isExpanded));
+  }
+  if (topNavClose) {
+    topNavClose.tabIndex = isExpanded ? 0 : -1;
+    topNavClose.setAttribute('aria-hidden', String(!isExpanded));
+  }
+}
+
 function setTopNavExpanded(isExpanded) {
   if (!topNav) return;
   topNav.classList.toggle('is-expanded', isExpanded);
   topNavToggle?.setAttribute('aria-expanded', String(isExpanded));
   topNavToggle?.setAttribute('aria-label', isExpanded ? 'Close case navigation' : 'Open case navigation');
+  syncTopNavAccessibility();
 }
 
 topNavToggle?.addEventListener('click', () => setTopNavExpanded(true));
@@ -2007,9 +2101,11 @@ function updateActiveSection() {
   sectionLinks.forEach((link) => {
     link.classList.toggle('active', link.getAttribute('href') === `#${activeId}`);
   });
+  syncTopNavAccessibility();
 }
 
 updateActiveSection();
+syncTopNavAccessibility();
 window.addEventListener('scroll', updateActiveSection, { passive: true });
 
 document.querySelectorAll('[data-transition]').forEach((link) => {
