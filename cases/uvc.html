@@ -1303,6 +1303,10 @@
     grid-column: auto;
   }
 
+  .uvc-case-flow {
+    padding-top: 78px;
+  }
+
   .uvc-top-nav {
     position: fixed;
     top: 22px;
@@ -1330,9 +1334,8 @@
     gap: 10px;
     padding: 0 24px;
     border: 0;
-    border-radius: 2px;
-    background: rgba(244, 244, 244, 0.96);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+    border-radius: var(--radius);
+    background: #e9e9e9;
     color: #050505;
     font-size: 13px;
     line-height: 1;
@@ -1345,7 +1348,7 @@
   }
 
   .uvc-nav-pill:hover {
-    background: #fff;
+    background: #ddd;
     opacity: 0.92;
   }
 
@@ -1370,39 +1373,17 @@
     padding: 0;
   }
 
-  .uvc-nav-menu-icon,
-  .uvc-nav-menu-icon::before,
-  .uvc-nav-menu-icon::after {
+  .uvc-nav-icon {
     width: 16px;
-    height: 1.5px;
+    height: 16px;
     display: block;
-    border-radius: 999px;
-    background: currentColor;
   }
 
-  .uvc-nav-menu-icon {
-    position: relative;
-  }
-
-  .uvc-nav-menu-icon::before,
-  .uvc-nav-menu-icon::after {
-    content: "";
-    position: absolute;
-    left: 0;
-  }
-
-  .uvc-nav-menu-icon::before {
-    top: -5px;
-  }
-
-  .uvc-nav-menu-icon::after {
-    top: 5px;
-  }
-
-  .uvc-nav-close {
-    font-size: 30px;
-    line-height: 1;
-    font-weight: 300;
+  .uvc-nav-icon path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    stroke-linecap: round;
   }
 
   @media (max-width: 960px) {
@@ -1443,6 +1424,10 @@
       font-size: 10px;
     }
 
+    .uvc-case-flow {
+      padding-top: 58px;
+    }
+
     .uvc-nav-toggle,
     .uvc-nav-close {
       width: 36px;
@@ -1464,9 +1449,15 @@
       <a class="uvc-nav-pill uvc-nav-link" href="#testing">U-test</a>
       <a class="uvc-nav-pill uvc-nav-link" href="#result">Results</a>
       <button class="uvc-nav-pill uvc-nav-toggle" type="button" data-nav-toggle aria-label="Open case navigation" aria-expanded="false">
-        <span class="uvc-nav-menu-icon" aria-hidden="true"></span>
+        <svg class="uvc-nav-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M3 4.5H13M3 8H13M3 11.5H13"/>
+        </svg>
       </button>
-      <button class="uvc-nav-pill uvc-nav-close" type="button" data-nav-close aria-label="Close case navigation">&times;</button>
+      <button class="uvc-nav-pill uvc-nav-close" type="button" data-nav-close aria-label="Close case navigation">
+        <svg class="uvc-nav-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M4 4L12 12M12 4L4 12"/>
+        </svg>
+      </button>
     </nav>
 
     <main class="uvc-content">
