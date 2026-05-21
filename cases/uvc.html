@@ -1285,54 +1285,189 @@
       grid-template-columns: 1fr;
     }
   }
+
+  html {
+    scroll-padding-top: 78px;
+  }
+
+  .uvc-shell {
+    display: block;
+    grid-template-columns: none;
+  }
+
+  .uvc-sidebar {
+    display: none;
+  }
+
+  .uvc-content {
+    grid-column: auto;
+  }
+
+  .uvc-top-nav {
+    position: fixed;
+    top: 22px;
+    left: 50%;
+    z-index: 30;
+    display: flex;
+    max-width: calc(100vw - 32px);
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    transform: translateX(-50%);
+    scrollbar-width: none;
+  }
+
+  .uvc-top-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .uvc-nav-pill {
+    min-height: 44px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 24px;
+    border: 0;
+    border-radius: 2px;
+    background: rgba(244, 244, 244, 0.96);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+    color: #050505;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 180ms ease, opacity 180ms ease, transform 180ms ease;
+  }
+
+  .uvc-nav-pill:hover {
+    background: #fff;
+    opacity: 0.92;
+  }
+
+  .uvc-nav-link.active::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .uvc-top-nav:not(.is-expanded) .uvc-nav-link:not(.active),
+  .uvc-top-nav:not(.is-expanded) .uvc-nav-close,
+  .uvc-top-nav.is-expanded .uvc-nav-toggle {
+    display: none;
+  }
+
+  .uvc-nav-toggle,
+  .uvc-nav-close {
+    width: 44px;
+    padding: 0;
+  }
+
+  .uvc-nav-menu-icon,
+  .uvc-nav-menu-icon::before,
+  .uvc-nav-menu-icon::after {
+    width: 16px;
+    height: 1.5px;
+    display: block;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .uvc-nav-menu-icon {
+    position: relative;
+  }
+
+  .uvc-nav-menu-icon::before,
+  .uvc-nav-menu-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+
+  .uvc-nav-menu-icon::before {
+    top: -5px;
+  }
+
+  .uvc-nav-menu-icon::after {
+    top: 5px;
+  }
+
+  .uvc-nav-close {
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 300;
+  }
+
+  @media (max-width: 960px) {
+    .uvc-top-nav {
+      left: 12px;
+      right: 12px;
+      max-width: none;
+      transform: none;
+    }
+
+    .uvc-nav-pill {
+      min-height: 40px;
+      padding: 0 18px;
+      font-size: 12px;
+    }
+
+    .uvc-nav-toggle,
+    .uvc-nav-close {
+      width: 40px;
+      flex: 0 0 40px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    html {
+      scroll-padding-top: 62px;
+    }
+
+    .uvc-top-nav {
+      top: 10px;
+      left: 8px;
+      right: 8px;
+    }
+
+    .uvc-nav-pill {
+      min-height: 36px;
+      padding: 0 13px;
+      font-size: 10px;
+    }
+
+    .uvc-nav-toggle,
+    .uvc-nav-close {
+      width: 36px;
+      flex-basis: 36px;
+    }
+  }
 </style>
 </head>
 <body>
   <div class="uvc-shell">
-    <aside class="uvc-sidebar" aria-label="Case navigation">
-      <header class="uvc-sidebar-head">
-        <a class="uvc-icon-link" href="../index.html" data-transition aria-label="Back to home">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
-        </a>
-        <h1 class="uvc-title">Uvelircentr</h1>
-        <div class="uvc-sidebar-actions">
-          <button class="uvc-theme-toggle" type="button" data-theme-toggle aria-label="Enable light theme" aria-pressed="false">
-            <span aria-hidden="true"></span>
-          </button>
-          <button class="uvc-icon-link uvc-sidebar-collapse" type="button" data-sidebar-toggle aria-label="Collapse sidebar" aria-expanded="true">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3.5" y="4" width="7" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
-              <rect x="12.5" y="4" width="8" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
-          </button>
-        </div>
-      </header>
-
-      <nav class="related-cases" aria-label="Other cases">
-        <p class="sidebar-section-title">Other cases</p>
-        <a class="related-card" href="kern.html" data-transition>
-          <span class="related-thumb"><img src="../media/kern/kern-case/preview-1-superkern.jpg?v=20260503-preview" alt="" loading="lazy"></span>
-          <span class="related-copy">
-            <strong>KERN</strong>
-            <span>concept website</span>
-          </span>
-        </a>
-        <a class="related-card" href="dolyami.html" data-transition>
-          <span class="related-thumb"><img src="../media/case5-new.png" alt="" loading="lazy"></span>
-          <span class="related-copy">
-            <strong>Dolyami</strong>
-            <span>mobile app design</span>
-          </span>
-        </a>
-        <a class="related-card" href="../index.html" data-transition>
-          <span class="related-thumb"><img src="../media/pd-vremnno.jpg?v=20260503-pd-desktop" alt="" loading="lazy"></span>
-          <span class="related-copy">
-            <strong>Poison Drop</strong>
-            <span>design system</span>
-          </span>
-        </a>
-      </nav>
-    </aside>
+    <nav class="uvc-top-nav" data-top-nav aria-label="Case sections">
+      <a class="uvc-nav-pill uvc-nav-brand" href="../index.html" data-transition>Uvelircentr</a>
+      <a class="uvc-nav-pill uvc-nav-link active" href="#about">Intro</a>
+      <a class="uvc-nav-pill uvc-nav-link" href="#task">Task</a>
+      <a class="uvc-nav-pill uvc-nav-link" href="#segments">Segments</a>
+      <a class="uvc-nav-pill uvc-nav-link" href="#benchmarks">Benchmarks</a>
+      <a class="uvc-nav-pill uvc-nav-link" href="#scoping">Scoping</a>
+      <a class="uvc-nav-pill uvc-nav-link" href="#screens">Screens</a>
+      <a class="uvc-nav-pill uvc-nav-link" href="#testing">U-test</a>
+      <a class="uvc-nav-pill uvc-nav-link" href="#result">Results</a>
+      <button class="uvc-nav-pill uvc-nav-toggle" type="button" data-nav-toggle aria-label="Open case navigation" aria-expanded="false">
+        <span class="uvc-nav-menu-icon" aria-hidden="true"></span>
+      </button>
+      <button class="uvc-nav-pill uvc-nav-close" type="button" data-nav-close aria-label="Close case navigation">&times;</button>
+    </nav>
 
     <main class="uvc-content">
       <div class="uvc-case-flow">
@@ -1850,10 +1985,26 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-const sectionLinks = Array.from(document.querySelectorAll('.case-section-nav a'));
+const topNav = document.querySelector('[data-top-nav]');
+const topNavToggle = document.querySelector('[data-nav-toggle]');
+const topNavClose = document.querySelector('[data-nav-close]');
+const sectionLinks = Array.from(document.querySelectorAll('.uvc-top-nav a[href^="#"]'));
 const sections = sectionLinks
   .map((link) => document.querySelector(link.getAttribute('href')))
   .filter(Boolean);
+
+function setTopNavExpanded(isExpanded) {
+  if (!topNav) return;
+  topNav.classList.toggle('is-expanded', isExpanded);
+  topNavToggle?.setAttribute('aria-expanded', String(isExpanded));
+  topNavToggle?.setAttribute('aria-label', isExpanded ? 'Close case navigation' : 'Open case navigation');
+}
+
+topNavToggle?.addEventListener('click', () => setTopNavExpanded(true));
+topNavClose?.addEventListener('click', () => setTopNavExpanded(false));
+sectionLinks.forEach((link) => {
+  link.addEventListener('click', () => setTopNavExpanded(false));
+});
 
 function updateActiveSection() {
   if (!sectionLinks.length) return;
