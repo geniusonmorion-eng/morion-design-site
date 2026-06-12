@@ -681,11 +681,25 @@ function setupIntroVideo() {
 }
 
 function playGalleryVideo(video) {
+	video.muted = true;
+	video.defaultMuted = true;
+	video.playsInline = true;
+	video.setAttribute('muted', '');
+	video.setAttribute('playsinline', '');
+
 	if (video.dataset.loadRequested !== 'true' && video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
 		video.dataset.loadRequested = 'true';
 		if (video.preload === 'none') video.preload = 'metadata';
 		video.load();
 	}
+
+	if (video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA && video.dataset.playRetryBound !== 'true') {
+		video.dataset.playRetryBound = 'true';
+		const retry = () => video.play().catch(() => {});
+		video.addEventListener('loadeddata', retry, { once: true });
+		video.addEventListener('canplay', retry, { once: true });
+	}
+
 	video.play().catch(() => {});
 }
 
