@@ -57,6 +57,14 @@ body {
   animation: pageIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+html.case-enter-pending body,
+html.case-entering body,
+html.case-transitioning body,
+html.case-enter-complete body {
+  opacity: 1;
+  animation: none;
+}
+
 @keyframes pageIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -65,6 +73,123 @@ body {
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 img, video { max-width: 100%; }
+
+html.case-transitioning,
+html.case-entering,
+html.case-transitioning *,
+html.case-entering * {
+  cursor: progress !important;
+}
+
+.case-page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
+}
+
+.case-page-transition__shade,
+.case-page-transition__panel,
+.case-page-transition__preview {
+  position: absolute;
+  will-change: opacity, transform, clip-path;
+}
+
+.case-page-transition__shade {
+  inset: 0;
+  background: #000;
+  opacity: 0;
+}
+
+.case-page-transition__panel {
+  inset: 0;
+  background: #f4f4f4;
+  transform: translate3d(0, 105%, 0);
+  clip-path: polygon(0% 100%, 100% 42%, 100% 100%, 0% 100%);
+}
+
+.case-page-transition__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(0,0,0,0.055));
+  opacity: 0.8;
+}
+
+.case-page-transition__preview {
+  top: 0;
+  left: 0;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #f1f1f1;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+  transform: translate3d(0, 0, 0);
+  transform-origin: center center;
+}
+
+.case-page-transition__preview:empty {
+  display: none;
+}
+
+.case-page-transition__preview .gallery,
+.case-page-transition__preview .uvc-media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.case-page-transition__preview .gallery-track,
+.case-page-transition__preview .slide {
+  height: 100%;
+}
+
+.case-page-transition__preview img,
+.case-page-transition__preview video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+html.case-transitioning .frame {
+  will-change: transform;
+}
+
+html.case-enter-pending .uvc-shell {
+  opacity: 0;
+  transform: translate3d(0, 100vh, 0);
+  clip-path: polygon(0% 100%, 100% 42%, 100% 100%, 0% 100%);
+}
+
+html.case-enter-pending.case-enter-zoom .uvc-shell {
+  transform: none;
+  clip-path: none;
+}
+
+html.case-entering .uvc-shell {
+  will-change: transform, clip-path;
+}
+
+html.case-entering.case-enter-zoom .uvc-shell {
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-page-transition {
+    display: none !important;
+  }
+
+  html.case-enter-pending .uvc-shell {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+}
 
 :focus-visible {
   outline: 1px solid currentColor;
