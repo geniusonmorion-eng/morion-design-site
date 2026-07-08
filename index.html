@@ -32,10 +32,16 @@ if (window.location.protocol === 'http:' && !['localhost', '127.0.0.1', '::1'].i
 <link rel="preload" as="image" href="media/uvc/cover.png?v=20260521-uvc-cover" />
 <link rel="preload" as="image" href="media/pd-vremnno.jpg?v=20260612-home-video-fix" />
 <link rel="preload" as="video" href="media/kern/kern-case/kern-home-preview.mp4?v=20260612-home-video-fix" type="video/mp4" />
-<link rel="stylesheet" href="style.css?v=20260612-home-video-fix" />
+<link rel="stylesheet" href="style.css?v=20260705-header-clean" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
+  <header class="site-header" aria-label="Main navigation">
+    <nav class="site-header-nav site-header-nav-primary" aria-label="Work navigation">
+      <a class="is-active" href="#cases" data-header-nav="cases">Кейсы</a>
+      <a href="#shots" data-header-nav="shots">Шоты</a>
+    </nav>
+  </header>
   <div class="cursor-follow" id="cursor-follow">View case</div>
   <nav class="mobile-tabs" id="mobile-tabs">
     <div class="mobile-tabs-inner">
@@ -44,14 +50,64 @@ if (window.location.protocol === 'http:' && !['localhost', '127.0.0.1', '::1'].i
       <button class="mobile-tab" data-target="right">About me</button>
     </div>
   </nav>
+  <section class="shots-view" id="shots" aria-label="Shots">
+    <div class="shots-grid">
+      <figure class="shot-card shot-card-phone" aria-label="Sber shot">
+        <img src="media/shots/sber-shot.png?v=20260701-sber-shot" alt="Sber smart home interface shot" loading="eager" decoding="async" />
+      </figure>
+      <figure class="shot-card shot-card-phone" aria-label="Main The Act shot">
+        <img src="media/shots/main-shot-the-act.png?v=20260701-main-act-shot" alt="The Act main interface shot" loading="eager" decoding="async" />
+      </figure>
+      <figure class="shot-card shot-card-phone" aria-label="The Act shot">
+        <img src="media/shots/the-act-shot.png?v=20260701-the-act-shot" alt="The Act interface shot" loading="eager" decoding="async" />
+      </figure>
+      <figure class="shot-card shot-card-wide shot-card-screen" aria-label="SmartAnimate shot">
+        <img src="media/shots/smartanimate-8.png?v=20260701-bottom-shots" alt="SmartAnimate interface shot" loading="lazy" decoding="async" />
+      </figure>
+      <figure class="shot-card shot-card-phone" aria-label="Voice shot">
+        <img src="media/shots/voice.png?v=20260701-bottom-shots" alt="Voice interface shot" loading="lazy" decoding="async" />
+      </figure>
+    </div>
+  </section>
   <div class="frame">
     <main id="site" class="page">
 
       <!-- =============================== LEFT COLUMN: PROJECT FEED =============================== -->
-      <section class="col col-left">
+      <section class="col col-left" id="cases">
         <div class="track">
+        <!-- SBERDEVICE CASE -->
+        <article class="case" data-tint="f" data-count="1" data-filters="product-design" data-href="cases/sber.html">
+          <div class="gallery">
+            <div class="gallery-track">
+              <div class="slide"><img src="media/sberdevice/device.png?v=20260614" alt="SberDevice smart home interface" loading="eager" decoding="async"></div>
+            </div>
+          </div>
+          <div class="case-meta">
+            <div class="top-bar grid-case">
+              <div class="arrows">
+                <button class="arrow prev" aria-label="previous"><svg viewBox="0 0 16 16"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
+                <button class="arrow next" aria-label="next"><svg viewBox="0 0 16 16"><path d="M6 3 L11 8 L6 13" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
+              </div>
+              <div class="title-and-client">
+                <p class="title">SberDevice</p>
+                <p class="faded">Smart home</p>
+              </div>
+              <p class="category">Product Design</p>
+              <p class="year">2026</p>
+            </div>
+            <div class="accordion-container">
+              <div class="accordion">
+                <div class="content">
+                  <p class="description">Product interface concept for a smart device ecosystem, connecting home scenarios, device control and assistant-driven routines in one visual story.</p>
+                </div>
+              </div>
+              <button class="read-more" aria-label="read more">+</button>
+            </div>
+          </div>
+        </article>
+
         <!-- CASE 1 -->
-        <article class="case" data-tint="a" data-count="19" data-filters="product-design" data-href="cases/uvc.html">
+        <article class="case" data-tint="a" data-count="19" data-filters="product-design" data-href="cases/uvc.html?v=20260613-direct-nav">
           <div class="gallery">
             <div class="gallery-track">
               <div class="slide"><video src="media/SuperUVC/video_main-home.mp4?v=20260612-home-video-fix" poster="media/SuperUVC/video_main-poster.jpg?v=20260612-home-video-fix" preload="auto" autoplay data-autoplay="true" muted loop playsinline></video></div>
@@ -191,7 +247,7 @@ if (window.location.protocol === 'http:' && !['localhost', '127.0.0.1', '::1'].i
         <div class="track">
 
         <!-- INTRO DARK CARD -->
-        <article class="card intro">
+        <article class="card intro" id="about">
           <header class="intro-head">
             <div class="intro-label"><span class="label-badge">N</span><span class="label-num">1</span> Who I am</div>
             <nav class="intro-contact-links" aria-label="Contact links">
@@ -201,7 +257,7 @@ if (window.location.protocol === 'http:' && !['localhost', '127.0.0.1', '::1'].i
             </nav>
           </header>
           <div class="intro-bottom">
-            <p class="intro-bio">Hello! I'm a product designer focused on B2C products. I have worked on projects for <a href="https://uvelircentr.com/" target="_blank" class="glow-link">Uvelircentr</a> and <a href="https://overchat.ai/" target="_blank" class="glow-link">Overchat AI</a>. I also submit work to international design competitions — one of my projects received an <a href="https://www.awwwards.com/sites/kern" target="_blank" class="glow-link">Awwwards HM</a> and six more international awards.</p>
+            <p class="intro-bio">I'm a product designer focused on B2C products, currently working at <a href="https://www.pragmatica.design/" target="_blank" rel="noopener noreferrer" class="glow-link">Pragmatica</a>. I regularly submit to international design competitions — one of my projects earned an <a href="https://www.awwwards.com/sites/kern" target="_blank" class="glow-link">Awwwards HM</a> along with six other international awards.</p>
           </div>
         </article>
 
@@ -211,7 +267,7 @@ if (window.location.protocol === 'http:' && !['localhost', '127.0.0.1', '::1'].i
         </article>
 
         <!-- SERVICES CARD -->
-        <article class="card dark services-card">
+        <article class="card dark services-card" id="approach">
           <section class="row-label services-label">
             <div class="left"><span class="label-badge">N</span><span class="label-num">2</span> What I do</div>
           </section>
@@ -281,6 +337,6 @@ if (window.location.protocol === 'http:' && !['localhost', '127.0.0.1', '::1'].i
     </main>
   </div>
 
-  <script src="script.js?v=20260612-home-video-fix"></script>
+  <script src="script.js?v=20260701-shots-screen"></script>
 </body>
 </html>
