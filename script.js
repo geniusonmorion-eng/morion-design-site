@@ -129,25 +129,6 @@ function resetHomeCaseTransition() {
 	else page.style.transform = '';
 }
 
-function hydrateCasePreview(preview, triggerEl) {
-	preview.innerHTML = '';
-	if (!triggerEl) return null;
-
-	const clone = triggerEl.cloneNode(true);
-	clone.removeAttribute('id');
-	clone.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
-	clone.querySelectorAll('video').forEach((video) => {
-		video.muted = true;
-		video.loop = true;
-		video.autoplay = true;
-		video.playsInline = true;
-		video.setAttribute('playsinline', '');
-		video.play?.().catch(() => {});
-	});
-	preview.appendChild(clone);
-	return clone;
-}
-
 function createScroll() {
 	return {
 		y: 0,
@@ -492,137 +473,16 @@ function navigateTo(href, triggerEl = null) {
 	if (!href) return;
 	if (caseTransitionActive) return;
 
-	if (!isCaseHref(href) || prefersReducedMotion()) {
+	if (!isCaseHref(href)) {
 		window.location.href = href;
 		return;
 	}
 
 	caseTransitionActive = true;
-	setCaseTransitionIntent('home-to-case-zoom');
-	document.documentElement.classList.add('case-transitioning');
-
-	const layer = ensureCaseTransitionLayer();
-	const shade = layer.querySelector('.case-page-transition__shade');
-	const panel = layer.querySelector('.case-page-transition__panel');
-	const preview = layer.querySelector('.case-page-transition__preview');
-	const page = document.querySelector('.frame') || document.body;
-	const rect = triggerEl?.getBoundingClientRect?.();
-	const radius = triggerEl ? window.getComputedStyle(triggerEl).borderRadius : '4px';
-	const canZoom = Boolean(rect && rect.width > 0 && rect.height > 0 && preview);
-
-	if (canZoom && hasGsap) {
-		hydrateCasePreview(preview, triggerEl);
-		window.gsap.killTweensOf([page, shade, panel, preview, triggerEl]);
-		window.gsap.set(layer, { display: 'block' });
-		window.gsap.set(shade, { opacity: 0 });
-		window.gsap.set(panel, { autoAlpha: 0 });
-		window.gsap.set(preview, {
-			x: rect.left,
-			y: rect.top,
-			width: rect.width,
-			height: rect.height,
-			autoAlpha: 1,
-			borderRadius: radius,
-			scale: 1
-		});
-		window.gsap.set(triggerEl, { autoAlpha: 0 });
-
-		const navigationTimer = window.setTimeout(() => { window.location.href = href; }, 980);
-		const tl = window.gsap.timeline({
-			defaults: { ease: 'expo.inOut' },
-			onInterrupt: () => window.gsap.set(triggerEl, { autoAlpha: 1 })
-		});
-		tl.to(shade, { opacity: 0.38, duration: 0.58, ease: 'power2.out' }, 0);
-		tl.to(page, { scale: 0.982, y: '-2.6vh', duration: 0.92, ease: 'power3.inOut', force3D: false }, 0);
-		tl.to(preview, {
-			x: 0,
-			y: 0,
-			width: window.innerWidth,
-			height: window.innerHeight,
-			borderRadius: 0,
-			duration: 0.92,
-			ease: 'expo.inOut'
-		}, 0.02);
-		tl.to(preview, { scale: 1.012, duration: 0.22, ease: 'power2.out' }, 0.74);
-		tl.call(() => {
-			window.clearTimeout(navigationTimer);
-			window.location.href = href;
-		}, null, 0.84);
-		window.gsap.ticker?.wake?.();
-		tl.play(0);
-		return;
-	}
-
-	if (hasGsap) {
-		window.gsap.killTweensOf([page, shade, panel]);
-		window.gsap.set(layer, { display: 'block' });
-		window.gsap.set(shade, { opacity: 0 });
-		window.gsap.set(preview, { autoAlpha: 0 });
-		window.gsap.set(panel, {
-			yPercent: 105,
-			autoAlpha: 1,
-			clipPath: 'polygon(0% 100%, 100% 42%, 100% 100%, 0% 100%)',
-			webkitClipPath: 'polygon(0% 100%, 100% 42%, 100% 100%, 0% 100%)'
-		});
-
-		const navigationTimer = window.setTimeout(() => { window.location.href = href; }, 1060);
-		const tl = window.gsap.timeline();
-		tl.to(page, { y: '-20vh', duration: 1.08, ease: 'power3.inOut', force3D: false }, 0);
-		tl.to(shade, { opacity: 0.42, duration: 0.78, ease: 'power2.out' }, 0);
-		tl.to(panel, { yPercent: 0, duration: 0.98, ease: 'expo.inOut' }, 0.06);
-		tl.to(panel, {
-			clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-			webkitClipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-			duration: 0.74,
-			ease: 'expo.inOut'
-		}, 0.18);
-		tl.call(() => {
-			window.clearTimeout(navigationTimer);
-			window.location.href = href;
-		}, null, 0.92);
-		window.gsap.ticker?.wake?.();
-		tl.play(0);
-		return;
-	}
-
-	layer.style.display = 'block';
-	if (canZoom) {
-		hydrateCasePreview(preview, triggerEl);
-		triggerEl.style.visibility = 'hidden';
-		Object.assign(preview.style, {
-			opacity: '1',
-			left: '0px',
-			top: '0px',
-			width: `${rect.width}px`,
-			height: `${rect.height}px`,
-			borderRadius: radius,
-			transform: `translate3d(${rect.left}px, ${rect.top}px, 0)`
-		});
-		requestAnimationFrame(() => {
-			page.style.transition = 'transform 0.92s cubic-bezier(0.625, 0.05, 0, 1)';
-			shade.style.transition = 'opacity 0.58s ease';
-			preview.style.transition = 'transform 0.92s cubic-bezier(0.625, 0.05, 0, 1), width 0.92s cubic-bezier(0.625, 0.05, 0, 1), height 0.92s cubic-bezier(0.625, 0.05, 0, 1), border-radius 0.92s cubic-bezier(0.625, 0.05, 0, 1)';
-			page.style.transform = 'translate3d(0, -2.6vh, 0) scale(0.982)';
-			shade.style.opacity = '0.38';
-			preview.style.width = `${window.innerWidth}px`;
-			preview.style.height = `${window.innerHeight}px`;
-			preview.style.borderRadius = '0px';
-			preview.style.transform = 'translate3d(0, 0, 0)';
-			setTimeout(() => { window.location.href = href; }, 840);
-		});
-		return;
-	}
-
-	requestAnimationFrame(() => {
-		page.style.transition = 'transform 0.95s cubic-bezier(0.625, 0.05, 0, 1)';
-		shade.style.transition = 'opacity 0.78s ease';
-		panel.style.transition = 'transform 0.95s cubic-bezier(0.625, 0.05, 0, 1), clip-path 0.74s cubic-bezier(0.625, 0.05, 0, 1)';
-		page.style.transform = 'translate3d(0, -20vh, 0)';
-		shade.style.opacity = '0.42';
-		panel.style.transform = 'translate3d(0, 0, 0)';
-		panel.style.clipPath = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
-		setTimeout(() => { window.location.href = href; }, 920);
-	});
+	clearCaseTransitionIntent();
+	const caseEl = triggerEl?.closest?.('.case');
+	caseEl?.classList.add('is-opening');
+	requestAnimationFrame(() => { window.location.href = href; });
 }
 
 function setupCursor() {
@@ -996,6 +856,114 @@ function setupMobileTabs() {
 	});
 }
 
+function headerHeight() {
+	const header = document.querySelector('.site-header');
+	return header ? header.getBoundingClientRect().height : 0;
+}
+
+function setVirtualColumnScroll(side, targetEl) {
+	const track = side === 'left' ? leftTrack : rightTrack;
+	const sc = side === 'left' ? leftScroll : rightScroll;
+	if (!track || !sc) return;
+
+	updateBounds(track, sc);
+	const targetY = clamp((targetEl?.offsetTop || 0) - PADDING, 0, sc.bounds.max);
+	sc.y = targetY;
+	sc.yRatio = sc.bounds.max > 0 ? targetY / sc.bounds.max : 0;
+	sc.delta = 0;
+}
+
+function setupHeaderNavigation() {
+	const links = Array.from(document.querySelectorAll('[data-header-nav]'));
+	const navLinks = links.filter((link) => link.matches('.site-header-nav a'));
+	const copyButton = document.querySelector('[data-copy-email]');
+	const shotsView = document.getElementById('shots');
+	const frame = document.querySelector('.frame');
+
+	function targetFor(navTarget) {
+		if (navTarget === 'approach') return { side: 'right', el: document.getElementById('approach') };
+		if (navTarget === 'contacts') return { side: 'right', el: document.getElementById('contacts') };
+		if (navTarget === 'about') return { side: 'right', el: document.getElementById('about') };
+		return { side: 'left', el: leftTrack?.querySelector('.case') || document.getElementById('cases') };
+	}
+
+	function setShotsScreen(isActive) {
+		document.documentElement.classList.toggle('is-shots-screen', isActive);
+		document.body.classList.toggle('is-shots-screen', isActive);
+		shotsView?.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+		frame?.setAttribute('aria-hidden', isActive ? 'true' : 'false');
+	}
+
+	function setActiveHeaderNav(navTarget) {
+		navLinks.forEach((navLink) => {
+			navLink.classList.toggle('is-active', navLink.dataset.headerNav === navTarget);
+		});
+	}
+
+	function openHeaderTarget(navTarget) {
+		setActiveHeaderNav(navTarget);
+
+		if (navTarget === 'shots') {
+			setShotsScreen(true);
+			requestAnimationFrame(() => {
+				window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+			});
+			return;
+		}
+
+		setShotsScreen(false);
+		const { side, el } = targetFor(navTarget);
+		if (isSplit()) {
+			changeSide(side);
+			setVirtualColumnScroll(side, el);
+			return;
+		}
+
+		setMobileSide(side, { restore: false });
+		requestAnimationFrame(() => {
+			const rect = el?.getBoundingClientRect();
+			const top = rect ? rect.top + window.scrollY - headerHeight() - PADDING : 0;
+			window.scrollTo({ top: Math.max(0, top), left: 0, behavior: 'smooth' });
+		});
+	}
+
+	links.forEach((link) => {
+		link.addEventListener('click', (event) => {
+			const navTarget = link.dataset.headerNav;
+			if (!navTarget) return;
+			event.preventDefault();
+			openHeaderTarget(navTarget);
+		});
+	});
+
+	setShotsScreen(window.location.hash === '#shots');
+	if (window.location.hash === '#shots') setActiveHeaderNav('shots');
+
+	copyButton?.addEventListener('click', async () => {
+		const email = copyButton.dataset.copyEmail || '';
+		if (!email) return;
+		try {
+			if (navigator.clipboard?.writeText) {
+				await navigator.clipboard.writeText(email);
+			} else {
+				const textArea = document.createElement('textarea');
+				textArea.value = email;
+				textArea.setAttribute('readonly', '');
+				textArea.style.position = 'fixed';
+				textArea.style.opacity = '0';
+				document.body.appendChild(textArea);
+				textArea.select();
+				document.execCommand('copy');
+				textArea.remove();
+			}
+			copyButton.classList.add('is-copied');
+			window.setTimeout(() => copyButton.classList.remove('is-copied'), 1200);
+		} catch (error) {
+			copyButton.classList.remove('is-copied');
+		}
+	});
+}
+
 function setupClock() {
 	const clockEl = document.getElementById('msk-clock');
 	if (!clockEl) return;
@@ -1029,8 +997,9 @@ function init() {
 		document.documentElement.classList.add('js-ready');
 		setupScrollAdapter(leftTrack, leftScroll);
 		setupScrollAdapter(rightTrack, rightScroll);
-		setupMobileTabs();
-		syncSplitMode();
+			setupMobileTabs();
+			setupHeaderNavigation();
+			syncSplitMode();
 		setupGalleries();
 		setupAccordions();
 		setupCaseFilters();

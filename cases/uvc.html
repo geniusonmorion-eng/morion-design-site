@@ -19,14 +19,13 @@
 <script>
 try {
   const transitionIntent = sessionStorage.getItem('morion-case-transition');
-  if (transitionIntent === 'home-to-case' || transitionIntent === 'home-to-case-zoom') {
+  if (transitionIntent === 'home-to-case') {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     document.documentElement.classList.add('case-enter-pending');
-    if (transitionIntent === 'home-to-case-zoom') document.documentElement.classList.add('case-enter-zoom');
   }
 } catch (error) {}
 </script>
-<link rel="stylesheet" href="../style.css?v=20260523-case-zoom" />
+<link rel="stylesheet" href="../style.css?v=20260613-direct-nav" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
   html,
@@ -1013,28 +1012,81 @@ try {
   }
 
   .uvc-hero-video {
+    --uvc-video-side-fade: clamp(88px, 13vw, 300px);
+    position: relative;
+    isolation: isolate;
+    width: calc(100% + var(--uvc-gap) * 2);
     height: calc(100svh - 94px);
     min-height: 560px;
     display: flex;
     align-items: center;
     justify-content: center;
     aspect-ratio: auto;
+    margin-inline: calc(var(--uvc-gap) * -1);
     padding: 0;
-    background: transparent;
+    overflow: hidden;
+    border-radius: 0;
+    background:
+      linear-gradient(90deg, rgba(244, 244, 244, 0.98) 0%, rgba(244, 244, 244, 0.68) 12%, rgba(244, 244, 244, 0) 28%),
+      linear-gradient(270deg, rgba(244, 244, 244, 0.98) 0%, rgba(244, 244, 244, 0.68) 12%, rgba(244, 244, 244, 0) 28%),
+      var(--uvc-page-bg);
+  }
+
+  .uvc-hero-video::before,
+  .uvc-hero-video::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    width: var(--uvc-video-side-fade);
+    pointer-events: none;
+  }
+
+  .uvc-hero-video::before {
+    left: 0;
+    background: linear-gradient(90deg, rgba(244, 244, 244, 0.96) 0%, rgba(244, 244, 244, 0.72) 38%, rgba(244, 244, 244, 0) 100%);
+  }
+
+  .uvc-hero-video::after {
+    right: 0;
+    background: linear-gradient(270deg, rgba(244, 244, 244, 0.96) 0%, rgba(244, 244, 244, 0.72) 38%, rgba(244, 244, 244, 0) 100%);
+  }
+
+  .uvc-main-poster {
+    display: block;
+    width: calc(100% + var(--uvc-gap) * 2);
+    min-height: 100svh;
+    margin: calc(var(--uvc-gap) * -1) calc(var(--uvc-gap) * -1) 0;
+    overflow: hidden;
+    border-radius: 0;
+    background: var(--uvc-media-bg);
+  }
+
+  .uvc-main-poster img {
+    width: 100%;
+    height: 100svh;
+    min-height: 100svh;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    background: var(--uvc-media-bg);
   }
 
   .uvc-hero-video video {
+    position: relative;
+    z-index: 1;
     aspect-ratio: 3228 / 2002;
     width: 100%;
     height: 100%;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    border-radius: 4px;
+    border-radius: 0;
     background: transparent;
   }
 
-  .uvc-case-flow > :not(.uvc-hero-video):not(.uvc-case-intro):not(.uvc-case-next) {
+  .uvc-case-flow > :not(.uvc-main-poster):not(.uvc-hero-video) {
     display: none !important;
   }
 
@@ -2621,6 +2673,14 @@ try {
       flex-basis: 36px;
     }
   }
+
+  .uvc-case-flow {
+    padding-top: 0;
+  }
+
+  .uvc-hero-video {
+    height: 100svh;
+  }
 </style>
 </head>
 <body data-uvc-theme="light">
@@ -2634,8 +2694,6 @@ try {
     <nav class="uvc-top-nav" data-top-nav aria-label="Case sections">
       <a class="uvc-nav-pill uvc-nav-brand" href="../index.html" data-transition>Uvelircentr</a>
       <a class="uvc-nav-pill uvc-nav-link active" href="#about">Intro</a>
-      <a class="uvc-nav-pill uvc-nav-link" href="#research">Research</a>
-      <a class="uvc-nav-pill uvc-nav-link" href="#screens">Screens</a>
       <button class="uvc-nav-pill uvc-nav-toggle" type="button" data-nav-toggle aria-label="Open case navigation" aria-expanded="false">
         <svg class="uvc-nav-icon" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M3 4.5H13M3 8H13M3 11.5H13"/>
@@ -2650,8 +2708,12 @@ try {
 
     <main class="uvc-content">
       <div class="uvc-case-flow">
+        <section class="uvc-main-poster" aria-label="Uvelircentr main poster">
+          <img src="../media/SuperUVC/main-poster.jpg?v=20260613-main-poster" alt="Uvelircentr mobile app screens poster" fetchpriority="high" decoding="async">
+        </section>
+
         <figure class="uvc-media uvc-hero-video" id="about" data-uvc-ripple data-uvc-ripple-fit="contain" aria-label="Uvelircentr case video">
-          <video preload="auto" src="../media/SuperUVC/video_main-case.mp4?v=20260510-uvc-video-fix" autoplay data-autoplay="true" muted loop playsinline></video>
+          <video preload="auto" src="../media/SuperUVC/video_main-case.mp4?v=20260510-uvc-video-fix" poster="../media/SuperUVC/video_main-poster.jpg?v=20260612-home-video-fix" autoplay data-autoplay="true" muted loop playsinline></video>
         </figure>
 
         <section class="uvc-case-intro" aria-label="Uvelircentr case introduction">
@@ -2749,7 +2811,7 @@ try {
             </article>
 
             <article class="uvc-product-story-card is-video" aria-label="Wishlist video screen">
-              <video class="uvc-product-story-video" preload="auto" src="../media/uvelirnew/izdeliya/video_4.mov" autoplay data-autoplay="true" muted loop playsinline></video>
+              <video class="uvc-product-story-video" preload="none" src="../media/uvelirnew/izdeliya/video_4.mov" data-autoplay="true" muted loop playsinline></video>
             </article>
           </section>
 
@@ -2795,7 +2857,7 @@ try {
                 <span>card</span>
                 <p>Uvelircentr is more than a shopping app — it is a digital extension of the boutique experience.</p>
               </div>
-              <video preload="metadata" src="../media/uvelirnew/video_1-browser.mp4" autoplay data-autoplay="true" muted loop playsinline></video>
+              <video preload="none" src="../media/uvelirnew/video_1-browser.mp4" data-autoplay="true" muted loop playsinline></video>
             </figure>
 
             <figure class="uvc-showcase-card uvc-showcase-image-video" data-uvc-ripple>
@@ -2811,22 +2873,22 @@ try {
                 <span>card</span>
                 <p>Product recommendations keep the catalogue close to the checkout moment.</p>
               </div>
-              <video preload="metadata" src="../media/uvelirnew/video_4-browser.mp4" autoplay data-autoplay="true" muted loop playsinline></video>
+              <video preload="none" src="../media/uvelirnew/video_4-browser.mp4" data-autoplay="true" muted loop playsinline></video>
             </figure>
           </div>
 
           <div class="uvc-catalogue-layout" aria-label="Catalogue screens and brand assets">
             <div class="uvc-catalogue-left">
               <figure class="uvc-catalogue-tile uvc-catalogue-photo" data-uvc-ripple data-uvc-tile="photo">
-                <video preload="auto" src="../media/SuperUVC/redwomen.mp4" autoplay data-autoplay="true" muted loop playsinline aria-label="Jewelry campaign portrait on a red background"></video>
+                <video preload="none" src="../media/SuperUVC/redwomen.mp4" data-autoplay="true" muted loop playsinline aria-label="Jewelry campaign portrait on a red background"></video>
               </figure>
 
               <figure class="uvc-catalogue-tile uvc-catalogue-icon" data-uvc-ripple data-uvc-tile="icon">
-                <video preload="metadata" src="../media/SuperUVC/notification-icon-animation.mp4" autoplay data-autoplay="true" muted loop playsinline aria-label="Notification icon animation"></video>
+                <video preload="none" src="../media/SuperUVC/notification-icon-animation.mp4" data-autoplay="true" muted loop playsinline aria-label="Notification icon animation"></video>
             </figure>
 
             <figure class="uvc-catalogue-tile uvc-catalogue-slider" data-uvc-ripple data-uvc-tile="slider">
-              <video preload="auto" src="../media/SuperUVC/range-slider-animation-final.mp4" autoplay data-autoplay="true" muted loop playsinline aria-label="Animated size range slider"></video>
+              <video preload="none" src="../media/SuperUVC/range-slider-animation-final.mp4" data-autoplay="true" muted loop playsinline aria-label="Animated size range slider"></video>
             </figure>
           </div>
 
@@ -2835,9 +2897,9 @@ try {
                 <span>Catalogue</span>
                 <p>Uvelircentr is more than a shopping app — it is a digital extension of the boutique experience.</p>
               </div>
-              <video class="uvc-catalogue-edge is-left" preload="metadata" src="../media/uvelirnew/video_2-edge-left.mp4" autoplay data-autoplay="true" muted loop playsinline aria-hidden="true"></video>
-              <video class="uvc-catalogue-edge is-right" preload="metadata" src="../media/uvelirnew/video_2-edge-right.mp4" autoplay data-autoplay="true" muted loop playsinline aria-hidden="true"></video>
-              <video class="uvc-catalogue-video-main" preload="metadata" src="../media/uvelirnew/video_2-web.mp4" autoplay data-autoplay="true" muted loop playsinline></video>
+              <video class="uvc-catalogue-edge is-left" preload="none" src="../media/uvelirnew/video_2-edge-left.mp4" data-autoplay="true" muted loop playsinline aria-hidden="true"></video>
+              <video class="uvc-catalogue-edge is-right" preload="none" src="../media/uvelirnew/video_2-edge-right.mp4" data-autoplay="true" muted loop playsinline aria-hidden="true"></video>
+              <video class="uvc-catalogue-video-main" preload="none" src="../media/uvelirnew/video_2-web.mp4" data-autoplay="true" muted loop playsinline></video>
             </figure>
           </div>
 
@@ -2870,7 +2932,7 @@ try {
         </div>
 
         <figure class="uvc-media uvc-eye-media" aria-label="Uvelircentr interface system principles">
-          <video preload="auto" src="../media/uvelirnew/eye-web.mp4?v=20260519-video-opt" autoplay data-autoplay="true" muted loop playsinline></video>
+          <video preload="none" src="../media/uvelirnew/eye-web.mp4?v=20260519-video-opt" data-autoplay="true" muted loop playsinline></video>
         </figure>
 
         <section class="uvc-overview" id="segments" aria-label="Uvelircentr segments">
@@ -2958,7 +3020,7 @@ try {
         </section>
 
         <figure class="uvc-media uvc-screen-video" aria-label="Video of the main screen of the app">
-          <video preload="auto" src="../media/uvelirnew/video_1-web.mp4?v=20260510-uvc-video-fix" autoplay data-autoplay="true" muted loop playsinline></video>
+          <video preload="none" src="../media/uvelirnew/video_1-web.mp4?v=20260510-uvc-video-fix" data-autoplay="true" muted loop playsinline></video>
         </figure>
 
         <div class="uvc-media-grid uvc-main-screens" aria-label="Main app screens">
@@ -2984,7 +3046,7 @@ try {
         </section>
 
         <figure class="uvc-media uvc-screen-video" aria-label="App catalog video">
-          <video preload="auto" src="../media/uvelirnew/video_2-web.mp4?v=20260510-uvc-video-fix" autoplay data-autoplay="true" muted loop playsinline></video>
+          <video preload="none" src="../media/uvelirnew/video_2-web.mp4?v=20260510-uvc-video-fix" data-autoplay="true" muted loop playsinline></video>
         </figure>
 
         <div class="uvc-media-grid uvc-main-screens" aria-label="App directory">
@@ -3010,7 +3072,7 @@ try {
         </section>
 
         <figure class="uvc-media uvc-screen-video" aria-label="Video of catalog filters">
-          <video preload="auto" src="../media/uvelirnew/video_3-web.mp4?v=20260510-uvc-video-fix" autoplay data-autoplay="true" muted loop playsinline></video>
+          <video preload="none" src="../media/uvelirnew/video_3-web.mp4?v=20260510-uvc-video-fix" data-autoplay="true" muted loop playsinline></video>
         </figure>
 
         <div class="uvc-media-grid uvc-main-screens" aria-label="App filters">
@@ -3036,7 +3098,7 @@ try {
         </section>
 
         <figure class="uvc-media uvc-screen-video" aria-label="Product card video">
-          <video preload="auto" src="../media/uvelirnew/video_4-web.mp4?v=20260510-uvc-video-fix" autoplay data-autoplay="true" muted loop playsinline></video>
+          <video preload="none" src="../media/uvelirnew/video_4-web.mp4?v=20260510-uvc-video-fix" data-autoplay="true" muted loop playsinline></video>
         </figure>
 
         <div class="uvc-media-grid uvc-main-screens" aria-label="Product card in the app">
@@ -3169,7 +3231,7 @@ try {
 
 <script>
 const shell = document.querySelector('.uvc-shell');
-const caseVideos = Array.from(document.querySelectorAll('.uvc-media video'));
+const caseVideos = Array.from(document.querySelectorAll('.uvc-content video'));
 const themeToggle = document.querySelector('[data-theme-toggle]');
 const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
 const splitContentBlocks = Array.from(document.querySelectorAll('[data-uvc-split]'));
@@ -3240,19 +3302,27 @@ function hydrateCaseEnterPreview(preview) {
   const hero = document.querySelector('.uvc-hero-video');
   if (!hero) return null;
 
-  const clone = hero.cloneNode(true);
-  clone.removeAttribute('id');
-  clone.querySelectorAll('[id]').forEach((node) => node.removeAttribute('id'));
-  clone.querySelectorAll('video').forEach((video) => {
-    video.muted = true;
-    video.loop = true;
-    video.autoplay = true;
-    video.playsInline = true;
-    video.setAttribute('playsinline', '');
-    video.play?.().catch(() => {});
-  });
-  preview.appendChild(clone);
-  return clone;
+  const video = hero.querySelector('video');
+  const poster = video?.getAttribute('poster') || video?.poster;
+  if (poster) {
+    const img = document.createElement('img');
+    img.src = poster;
+    img.alt = hero.getAttribute('aria-label') || '';
+    img.decoding = 'async';
+    preview.appendChild(img);
+    return img;
+  }
+
+  const fallbackVideo = document.createElement('video');
+  fallbackVideo.src = video?.currentSrc || video?.src || '';
+  fallbackVideo.muted = true;
+  fallbackVideo.defaultMuted = true;
+  fallbackVideo.playsInline = true;
+  fallbackVideo.preload = 'metadata';
+  fallbackVideo.setAttribute('muted', '');
+  fallbackVideo.setAttribute('playsinline', '');
+  preview.appendChild(fallbackVideo);
+  return fallbackVideo;
 }
 
 function playCaseZoomEnterTransition() {
@@ -3357,7 +3427,10 @@ function playCaseZoomEnterTransition() {
 function playCaseEnterTransition() {
   const intent = getCaseTransitionIntent();
   if (intent === 'home-to-case-zoom') {
-    playCaseZoomEnterTransition();
+    clearCaseTransitionIntent();
+    resetCaseScroll();
+    document.documentElement.classList.add('case-enter-complete');
+    document.documentElement.classList.remove('case-enter-pending', 'case-enter-zoom', 'case-entering');
     return;
   }
   if (intent !== 'home-to-case') {

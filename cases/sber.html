@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SberDevice - Anastasia Kuznetsova</title>
+<link rel="icon" href="/morion-design-site/favicon.ico?v=20260502" sizes="any" />
+<link rel="icon" href="/morion-design-site/favicon.svg?v=20260502" type="image/svg+xml" />
+<link rel="icon" href="/morion-design-site/favicon-32.png?v=20260502" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="/morion-design-site/apple-touch-icon.png?v=20260502" />
+<meta name="theme-color" content="#f4f4f4" />
+<meta name="description" content="SberDevice smart home interface case study by Anastasia Kuznetsova." />
+<link rel="canonical" href="https://geniusonmorion-eng.github.io/morion-design-site/cases/sber.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="SberDevice - smart home" />
+<meta property="og:description" content="Product interface concept for a smart device ecosystem." />
+<meta property="og:image" content="https://geniusonmorion-eng.github.io/morion-design-site/media/sberdevice/device.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preload" as="video" href="../media/SberCAse/prewew-hq.mp4?v=20260704-sbercase-hq" type="video/mp4" />
+<link rel="stylesheet" href="../style.css?v=20260701-main-act-restored" />
+<style>
+  html,
+  body {
+    min-height: 100%;
+    height: auto;
+    overflow: auto;
+    background: #f4f4f4;
+    color: #050505;
+  }
+
+  body {
+    --sber-gap: 8px;
+    --sber-radius: 6px;
+    --sber-muted: #6f6f6f;
+    --sber-panel: #e9e9e9;
+  }
+
+  .sber-shell {
+    min-height: 100vh;
+    padding: var(--sber-gap);
+    background: #f4f4f4;
+  }
+
+  .sber-content {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sber-hero {
+    min-height: calc(100svh - var(--sber-gap) * 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--sber-radius) var(--sber-radius) 0 0;
+    background: #050505;
+  }
+
+  .sber-hero video {
+    width: 100%;
+    height: 100%;
+    min-height: calc(100svh - var(--sber-gap) * 2);
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    background: #050505;
+  }
+
+  .sber-intro {
+    min-height: clamp(420px, 31vw, 580px);
+    display: grid;
+    grid-template-columns: minmax(360px, 0.95fr) minmax(560px, 1.35fr);
+    gap: clamp(52px, 8vw, 150px);
+    align-items: start;
+    padding: clamp(34px, 2.5vw, 56px) clamp(30px, 3vw, 62px) clamp(34px, 2.5vw, 56px) clamp(12px, 1.2vw, 24px);
+    border-radius: 0;
+    background: #fff;
+    color: #050505;
+  }
+
+  .sber-meta {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: clamp(80px, 6vw, 145px);
+    row-gap: 10px;
+    margin: 0;
+    font-size: clamp(25px, 1.45vw, 34px);
+    line-height: 1.08;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .sber-meta dt,
+  .sber-meta dd {
+    margin: 0;
+  }
+
+  .sber-copy {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(42px, 5.4vw, 110px);
+    margin-top: clamp(112px, 8.4vw, 165px);
+  }
+
+  .sber-copy p {
+    margin: 0;
+    font-size: clamp(24px, 1.45vw, 34px);
+    line-height: 0.92;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .sber-copy p + p {
+    margin-top: clamp(24px, 2.2vw, 42px);
+  }
+
+  .sber-room-preview {
+    margin: 0;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .sber-room-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .sber-overview {
+    position: relative;
+    min-height: clamp(1360px, 112vw, 2260px);
+    overflow: hidden;
+    padding: clamp(18px, 1.7vw, 32px);
+    border-radius: 0 0 var(--sber-radius) var(--sber-radius);
+    background: #fff;
+    color: #050505;
+  }
+
+  .sber-overview::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background: url("../media/SberCAse/kolonka.png?v=20260705-kolonka-larger-3") right bottom / clamp(1320px, 90vw, 1740px) auto no-repeat;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .sber-shell {
+      padding: var(--sber-gap);
+    }
+
+    .sber-hero,
+    .sber-hero video {
+      min-height: auto;
+      aspect-ratio: 1140 / 624;
+    }
+
+    .sber-intro {
+      min-height: auto;
+      grid-template-columns: 1fr;
+      gap: 58px;
+      padding: 24px 18px 72px;
+    }
+
+    .sber-meta {
+      column-gap: 34px;
+      font-size: clamp(22px, 6.1vw, 29px);
+    }
+
+    .sber-copy {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 0;
+    }
+
+    .sber-copy p {
+      font-size: clamp(25px, 6.5vw, 34px);
+    }
+
+    .sber-copy p + p {
+      margin-top: 24px;
+    }
+
+    .sber-overview {
+      min-height: 1160px;
+      padding: 18px;
+      gap: 120px;
+    }
+
+    .sber-overview::before {
+      inset: 0;
+      background-size: min(148vw, 980px) auto;
+      background-position: right bottom;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="sber-shell">
+    <section class="sber-content">
+      <figure class="sber-hero" aria-label="SberDevice interface preview">
+        <video preload="auto" autoplay muted loop playsinline data-autoplay="true">
+          <source src="../media/SberCAse/prewew-hq.mp4?v=20260704-sbercase-hq" type="video/mp4">
+          <source src="../media/SberCAse/prewew.mov?v=20260704-sbercase-preview" type="video/quicktime">
+        </video>
+      </figure>
+      <section class="sber-intro" aria-label="Project intro">
+        <dl class="sber-meta">
+          <dt>Создан:</dt>
+          <dd>2026, сбер девайсы</dd>
+          <dt>Тип:</dt>
+          <dd>Кросс-девайсная экосистема</dd>
+          <dt>Роль:</dt>
+          <dd>Продуктовый дизайнер</dd>
+        </dl>
+        <div class="sber-copy">
+          <div>
+            <p>Дизайн ai-native экосистемы сбер девайсов, где ассистент присутствует на всех поверхностях — от телевизора и умного дома до носимых устройств и колонок — как единый обезличенный помощник, растворённый в интерфейсе</p>
+            <p>Задача включала переосмысление роли ии в устройствах: от подсказок-настроек к полноценному ассистенту с генеративным опытом</p>
+          </div>
+          <div>
+            <p>была разработана продуктовая стратегия, визуальные принципы и три сквозных функциональных сценариев, а также подготовка и проведение клиентских воркшопов</p>
+            <p>по итогам R&amp;D-этапа заказчик перешёл к оплачиваемому проекту</p>
+          </div>
+        </div>
+      </section>
+      <figure class="sber-room-preview" aria-label="SberDevice living room preview">
+        <img src="../media/SberCAse/2prewew.png?v=20260705-sber-room-preview" alt="SberDevice interface shown on a TV in a living room" loading="lazy">
+      </figure>
+      <section class="sber-overview" aria-label="Project visuals"></section>
+    </section>
+  </main>
+</body>
+</html>
